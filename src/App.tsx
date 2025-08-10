@@ -32,7 +32,7 @@ export default function Portfolio() {
     { name: "GoLang", level: "Expert", icon: <Code className="w-5 h-5" />, category: "Backend", experience: "4+ years" },
     { name: "React.js", level: "Expert", icon: <Monitor className="w-5 h-5" />, category: "Frontend", experience: "4+ years" },
     { name: "Angular", level: "Advanced", icon: <Monitor className="w-5 h-5" />, category: "Frontend", experience: "1+ years" },
-    { name: "Cybersecurity", level: "Intermediate", icon: <Shield className="w-5 h-5" />, category: "Security", experience: "CTF Expert" },
+    { name: "CTF Events", level: "Intermediate", icon: <Shield className="w-5 h-5" />, category: "Security", experience: "2+ years" },
     { name: "Google Cloud Platform", level: "Advanced", icon: <Cloud className="w-5 h-5" />, category: "Cloud", experience: "3+ years" },
     { name: "Docker/Podman", level: "Advanced", icon: <Zap className="w-5 h-5" />, category: "DevOps", experience: "4+ years" },
     { name: "MySQL", level: "Advanced", icon: <Database className="w-5 h-5" />, category: "Database", experience: "3+ years" },
