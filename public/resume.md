@@ -34,13 +34,6 @@ shashankmahajan99@gmail.com | +918178528246
 
 ## KEY TECHNICAL PROJECTS
 
-### **HSMs Manager - HSM Fleet Management Platform**
-*React.js, GoLang, OAuth2, REST APIs, Google Cloud Platform*
-- Enterprise-grade centralized management platform for Thales HSM devices.
-- Real-time monitoring dashboard with custom analytics and alerting system.
-- Secure OAuth2-compliant authentication with custom IDP implementation.
-- **Impact**: Streamlined operations for enterprise customers, reducing management overhead by 90%.
-
 ### **Gambit Service Broker & Web Application**
 *GoLang, React.js, Microservices, Docker, GCP, OSB Specification*
 - Cloud-native service broker for automated HSM provisioning in hosted environments.
@@ -55,22 +48,15 @@ shashankmahajan99@gmail.com | +918178528246
 - Integrated cryptocurrency purchase gateway with secure wallet connectivity.
 - **Impact**: Enabled seamless crypto transactions for 1,00,000+ users.
 
-### **LITSOC - Audio Literary Social Platform**
-*React.js, Express.js, MongoDB, Python, ML Algorithms*
-- Social media platform specializing in audio literary content.
-- Implemented dual recommendation systems (personalized & generalized) using Python ML algorithms.
-- **Impact**: 85% user engagement rate with personalized content recommendations.
-
 ---
 
 ## TECHNICAL SKILLS
 
-- **Specializations**: Full-Stack Development, API Design, Cloud Architecture, Security Implementation.
-- **Frontend Technologies**: React.js, Angular, Web3.js.
-- **Backend Technologies**: GoLang, Node.js.
-- **Databases**: MongoDB, MySQL, Firebase.
-- **Cloud & DevOps**: Google Cloud Platform, Docker/Podman, GitLab CI/CD, Bamboo.
-- **Tools & Frameworks**: Swagger/OpenAPI, OAuth2, SAFe Agile, Git.
+- **Frontend**: React.js, Angular, Web3.js
+- **Backend**: GoLang, Node.js, REST APIs
+- **Databases**: MongoDB, MySQL, Firebase
+- **Cloud & DevOps**: GCP, Docker, GitLab CI/CD, Bamboo
+- **Security & Tools**: OAuth2, Swagger/OpenAPI, Git, SAFe Agile
 
 ---
 
