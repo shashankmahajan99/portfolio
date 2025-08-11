@@ -1,129 +1,138 @@
-/* Resume Styles - One Page Layout */
+/* Resume Styles - Optimized for html2pdf.js client-side conversion */
 
-/* Reset and base styles for the resume container */
+/* Base container - matches html2pdf.js expectations */
 .resume-page {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 10px;
-  line-height: 1.2;
+  font-size: 11px;
+  line-height: 1.25;
   color: #000000;
   background: #ffffff;
   margin: 0;
-  padding: 16px;
+  padding: 18px;
   width: 794px; /* A4 width at 96dpi */
   min-height: 1123px; /* A4 height at 96dpi */
-  max-height: 1123px;
   box-sizing: border-box;
-  overflow: hidden;
-  page-break-after: avoid;
+  position: relative;
+  /* Critical for html2pdf.js - no overflow hidden here */
 }
 
-/* Name/Title Header */
+/* Name/Header */
 .resume-page h1 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  margin: 0 0 3px 0;
+  margin: 0 0 4px 0;
   padding: 0;
   color: #000000;
   text-align: center;
+  page-break-after: avoid;
 }
 
-/* Role/Title (usually in bold after name) */
+/* Role/Title - usually the first paragraph with **text** */
 .resume-page > p:first-of-type {
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  margin: 0 0 4px 0;
-  color: #1a365d;
+  margin: 0 0 6px 0;
+  color: #2563eb;
 }
 
 .resume-page > p:first-of-type strong {
   font-weight: 600;
+  color: #2563eb;
 }
 
-/* Contact Info */
+/* Contact Info - second paragraph */
 .resume-page > p:nth-of-type(2) {
   text-align: center;
-  font-size: 9px;
-  margin: 0 0 8px 0;
+  font-size: 10px;
+  margin: 0 0 10px 0;
   color: #4a5568;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .resume-page > p:nth-of-type(2) a {
-  color: #2b6cb0;
+  color: #2563eb;
   text-decoration: none;
+}
+
+.resume-page > p:nth-of-type(2) a:hover {
+  text-decoration: underline;
 }
 
 /* Horizontal separator */
 .resume-page hr {
   border: none;
-  border-top: 1px solid #e2e8f0;
-  margin: 8px 0 10px 0;
+  border-top: 1.5px solid #e2e8f0;
+  margin: 10px 0 12px 0;
+  page-break-after: avoid;
 }
 
 /* Section Headers (h2) */
 .resume-page h2 {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  color: #2d3748;
-  margin: 10px 0 4px 0;
-  padding: 0 0 1px 0;
-  border-bottom: 1px solid #cbd5e0;
+  color: #1f2937;
+  margin: 12px 0 5px 0;
+  padding: 0 0 2px 0;
+  border-bottom: 1px solid #d1d5db;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   page-break-after: avoid;
+  break-after: avoid;
 }
 
 /* Company/Organization Names (h3) */
 .resume-page h3 {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
-  margin: 6px 0 1px 0;
-  color: #2d3748;
+  margin: 7px 0 2px 0;
+  color: #374151;
   page-break-after: avoid;
+  break-after: avoid;
 }
 
 /* Job Titles/Dates (h4) */
 .resume-page h4 {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
-  margin: 1px 0 2px 0;
-  color: #718096;
+  margin: 2px 0 3px 0;
+  color: #6b7280;
   font-style: italic;
 }
 
 /* Regular paragraphs */
 .resume-page p {
-  margin: 2px 0 3px 0;
+  margin: 3px 0 4px 0;
   padding: 0;
   text-align: justify;
-  font-size: 10px;
-  line-height: 1.25;
+  font-size: 11px;
+  line-height: 1.3;
 }
 
 /* Lists */
 .resume-page ul {
-  margin: 3px 0 5px 12px;
+  margin: 4px 0 6px 16px;
   padding: 0;
   page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .resume-page ol {
-  margin: 3px 0 5px 12px;
+  margin: 4px 0 6px 16px;
   padding: 0;
 }
 
 .resume-page li {
-  margin: 1px 0;
-  line-height: 1.2;
-  font-size: 10px;
+  margin: 2px 0;
+  line-height: 1.25;
+  font-size: 11px;
   text-align: justify;
 }
 
 /* Nested lists */
 .resume-page ul ul,
 .resume-page ol ol {
-  margin: 1px 0 1px 10px;
+  margin: 2px 0 2px 12px;
 }
 
 /* Strong/Bold text */
@@ -140,17 +149,17 @@
 
 /* Code/Technical terms */
 .resume-page code {
-  background: #edf2f7;
-  padding: 1px 2px;
+  background: #f3f4f6;
+  padding: 1px 3px;
   border-radius: 2px;
   font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  font-size: 9px;
-  color: #2d3748;
+  font-size: 10px;
+  color: #374151;
 }
 
 /* Links */
 .resume-page a {
-  color: #2b6cb0;
+  color: #2563eb;
   text-decoration: none;
 }
 
@@ -158,123 +167,158 @@
   text-decoration: underline;
 }
 
-/* Blockquotes (if any) */
+/* Blockquotes */
 .resume-page blockquote {
-  margin: 3px 0 3px 8px;
-  padding-left: 6px;
-  border-left: 2px solid #cbd5e0;
+  margin: 4px 0 4px 10px;
+  padding-left: 8px;
+  border-left: 2px solid #d1d5db;
   font-style: italic;
-  color: #4a5568;
+  color: #6b7280;
 }
 
-/* Tables (if any) */
+/* Tables */
 .resume-page table {
   width: 100%;
   border-collapse: collapse;
-  margin: 4px 0;
-  font-size: 9px;
+  margin: 5px 0;
+  font-size: 10px;
 }
 
 .resume-page th,
 .resume-page td {
-  padding: 2px 4px;
-  border: 1px solid #e2e8f0;
+  padding: 3px 5px;
+  border: 1px solid #e5e7eb;
   text-align: left;
 }
 
 .resume-page th {
-  background: #f7fafc;
+  background: #f9fafb;
   font-weight: 600;
 }
 
-/* Specific section optimizations */
+/* Section-specific optimizations for compactness */
 
 /* Technical Skills - more compact */
 .resume-page h2:contains("TECHNICAL") + ul,
 .resume-page h2:contains("Technical") + ul,
 .resume-page h2:contains("SKILLS") + ul {
-  margin: 2px 0 4px 12px;
+  margin: 3px 0 5px 16px;
 }
 
 .resume-page h2:contains("TECHNICAL") + ul li,
 .resume-page h2:contains("Technical") + ul li,
 .resume-page h2:contains("SKILLS") + ul li {
-  margin: 0.5px 0;
-  line-height: 1.15;
+  margin: 1px 0;
+  line-height: 1.2;
 }
 
-/* Education - compact */
-.resume-page h2:contains("EDUCATION") + *,
-.resume-page h2:contains("Education") + * {
-  margin-top: 2px;
+/* Education section */
+.resume-page h2:contains("EDUCATION") + h3,
+.resume-page h2:contains("Education") + h3 {
+  margin-top: 5px;
 }
 
-/* Achievements - compact */
+/* Achievements section */
 .resume-page h2:contains("ACHIEVEMENT") + ul,
 .resume-page h2:contains("Achievement") + ul {
-  margin: 2px 0 4px 12px;
+  margin: 3px 0 5px 16px;
 }
 
-/* Professional Experience - slightly more space for readability */
+.resume-page h2:contains("ACHIEVEMENT") + ul li,
+.resume-page h2:contains("Achievement") + ul li {
+  margin: 1.5px 0;
+  line-height: 1.25;
+}
+
+/* Professional Experience */
 .resume-page h2:contains("PROFESSIONAL") + h3,
 .resume-page h2:contains("Professional") + h3,
 .resume-page h2:contains("EXPERIENCE") + h3,
 .resume-page h2:contains("Experience") + h3 {
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 /* Projects section */
 .resume-page h2:contains("PROJECT") + h3,
 .resume-page h2:contains("Project") + h3 {
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
-/* Print-specific styles */
+/* html2pdf.js specific optimizations */
 @media print {
   .resume-page {
     margin: 0;
-    padding: 12px;
+    padding: 15px;
+    font-size: 10.5px;
+    width: 100%;
+    max-width: none;
     box-shadow: none;
-    font-size: 9.5px;
-    max-height: none;
-    width: auto;
+    background: white;
   }
   
   .resume-page h1 {
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+  
+  .resume-page > p:first-of-type {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  
+  .resume-page > p:nth-of-type(2) {
+    font-size: 9px;
+    margin-bottom: 8px;
+  }
+  
+  .resume-page hr {
+    margin: 8px 0 10px 0;
   }
   
   .resume-page h2 {
-    font-size: 10px;
-    margin: 8px 0 3px 0;
+    font-size: 11px;
+    margin: 10px 0 4px 0;
   }
   
   .resume-page h3 {
-    font-size: 9.5px;
-    margin: 4px 0 1px 0;
+    font-size: 10px;
+    margin: 5px 0 1px 0;
   }
   
-  .resume-page ul {
-    margin: 2px 0 3px 10px;
-  }
-  
-  .resume-page li {
-    margin: 0.5px 0;
-    line-height: 1.15;
+  .resume-page h4 {
+    font-size: 9px;
+    margin: 1px 0 2px 0;
   }
   
   .resume-page p {
-    margin: 1px 0 2px 0;
+    margin: 2px 0 3px 0;
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+  
+  .resume-page ul {
+    margin: 3px 0 4px 14px;
+  }
+  
+  .resume-page li {
+    margin: 1px 0;
     line-height: 1.2;
+    font-size: 10.5px;
+  }
+  
+  /* Force single page */
+  .resume-page {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  
+  .resume-page * {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 
-/* Page break controls */
-@page {
-  margin: 0.4in;
-  size: A4;
-}
-
+/* Page break controls for html2pdf.js */
 .resume-page h2,
 .resume-page h3 {
   page-break-after: avoid;
@@ -287,14 +331,31 @@
   break-inside: avoid;
 }
 
-/* Ensure content doesn't overflow */
+.resume-page li {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Ensure content fits and doesn't overflow */
 .resume-page * {
   max-width: 100%;
   word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-/* Final overflow protection */
+/* Critical: No height restrictions for html2pdf.js to work properly */
+/* The library handles pagination automatically */
+
+/* Optimize for html2pdf.js rendering */
 .resume-page {
-  height: 1083px; /* Slightly less than full A4 for safety */
-  overflow: hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+/* Ensure consistent rendering across browsers */
+.resume-page * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
