@@ -1,189 +1,314 @@
-/* global marked, DOMPurify, html2pdf */
+/* global marked, DOMPurify, html2pdf, Sortable */
+
 const state = {
+  // Parsed from resume.md
+  header: {
+    name: '',
+    role: '',
+    contactsMd: '',
+  },
+  sections: [], // [{ id, title, contentMd, visible }]
+  // UI
+  selectedSectionId: null,
+  cleanupBuzz: true,
+  keywords: [],
+  // Original
   baseMd: '',
-  currentMd: '',
 };
 
 const els = {
+  name: () => document.getElementById('name'),
   role: () => document.getElementById('role'),
-  company: () => document.getElementById('company'),
-  secExperience: () => document.getElementById('sec-experience'),
-  secProjects: () => document.getElementById('sec-projects'),
-  secSkills: () => document.getElementById('sec-skills'),
-  secEducation: () => document.getElementById('sec-education'),
-  secAchievements: () => document.getElementById('sec-achievements'),
+  contacts: () => document.getElementById('contacts'),
+  sectionsList: () => document.getElementById('sectionsList'),
+  addSectionBtn: () => document.getElementById('addSectionBtn'),
+  editor: () => document.getElementById('editor'),
+  editorTitle: () => document.getElementById('editorTitle'),
+  sectionTitle: () => document.getElementById('sectionTitle'),
+  sectionContent: () => document.getElementById('sectionContent'),
+  deleteSectionBtn: () => document.getElementById('deleteSectionBtn'),
+  saveSectionBtn: () => document.getElementById('saveSectionBtn'),
   cleanupBuzz: () => document.getElementById('cleanup-buzz'),
   keywords: () => document.getElementById('keywords'),
-  preview: () => document.getElementById('preview'),
+  previewSurface: () => document.getElementById('resumeSurface'),
   resetBtn: () => document.getElementById('resetBtn'),
   pdfBtn: () => document.getElementById('pdfBtn'),
   mdBtn: () => document.getElementById('mdBtn'),
+  toggleControls: () => document.getElementById('toggleControls'),
+  controls: () => document.querySelector('.controls'),
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Load base resume.md from public
   const md = await fetch('/resume.md').then(r => r.text()).catch(() => '# Error\nCould not load resume.md');
   state.baseMd = md;
-  // Prefill role from current resume (2nd line is **Role**)
-  const roleMatch = md.split('\n').find(l => /^\*\*.+\*\*$/.test(l));
-  if (roleMatch) els.role().value = roleMatch.replace(/^\*\*|\*\*$/g, '');
-  render();
 
-  // Wire controls
-  for (const id of [
-    'role','company','sec-experience','sec-projects','sec-skills','sec-education','sec-achievements','cleanup-buzz','keywords'
-  ]) {
-    const el = document.getElementById(id);
-    el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', render);
-  }
-  els.resetBtn().addEventListener('click', reset);
-  els.pdfBtn().addEventListener('click', downloadPdf);
+  parseResumeMd(md);
+  hydrateControls();
+  renderSectionsList();
+  renderPreview();
+
+  // Drag-and-drop reorder
+  Sortable.create(els.sectionsList(), {
+    animation: 150,
+    handle: '.section-drag',
+    onEnd: (evt) => {
+      const { oldIndex, newIndex } = evt;
+      if (oldIndex === newIndex) return;
+      const arr = state.sections;
+      const [moved] = arr.splice(oldIndex, 1);
+      arr.splice(newIndex, 0, moved);
+      renderPreview();
+    }
+  });
+
+  // Wire header inputs
+  els.name().addEventListener('input', () => { state.header.name = els.name().value; renderPreview(); });
+  els.role().addEventListener('input', () => { state.header.role = els.role().value; renderPreview(); });
+  els.contacts().addEventListener('input', () => { state.header.contactsMd = els.contacts().value; renderPreview(); });
+
+  // Wire options
+  els.cleanupBuzz().addEventListener('change', () => { state.cleanupBuzz = els.cleanupBuzz().checked; renderPreview(); });
+  els.keywords().addEventListener('input', () => { state.keywords = parseKeywords(els.keywords().value); renderPreview(); });
+
+  // Section CRUD
+  els.addSectionBtn().addEventListener('click', onAddSection);
+  els.saveSectionBtn().addEventListener('click', onSaveSection);
+  els.deleteSectionBtn().addEventListener('click', onDeleteSection);
+
+  // Actions
+  els.resetBtn().addEventListener('click', () => { parseResumeMd(state.baseMd); hydrateControls(); renderSectionsList(); renderPreview(); });
   els.mdBtn().addEventListener('click', downloadMd);
+  els.pdfBtn().addEventListener('click', downloadPdf);
+
+  // Mobile: toggle controls panel visibility
+  els.toggleControls().addEventListener('click', () => {
+    const isHidden = els.controls().getAttribute('data-collapsed') === 'true';
+    if (isHidden) {
+      els.controls().removeAttribute('data-collapsed');
+      els.toggleControls().setAttribute('aria-expanded', 'true');
+      els.toggleControls().textContent = 'Hide Controls';
+    } else {
+      els.controls().setAttribute('data-collapsed', 'true');
+      els.toggleControls().setAttribute('aria-expanded', 'false');
+      els.toggleControls().textContent = 'Show Controls';
+    }
+  });
 });
 
-function reset() {
-  els.role().value = extractRole(state.baseMd) || 'Senior Full-Stack Developer';
-  els.company().value = '';
-  els.secExperience().checked = true;
-  els.secProjects().checked = true;
-  els.secSkills().checked = true;
-  els.secEducation().checked = true;
-  els.secAchievements().checked = true;
-  els.cleanupBuzz().checked = true;
-  els.keywords().value = '';
-  render();
+function hydrateControls() {
+  els.name().value = state.header.name || '';
+  els.role().value = state.header.role || '';
+  els.contacts().value = state.header.contactsMd || '';
+  els.cleanupBuzz().checked = state.cleanupBuzz;
+  els.keywords().value = state.keywords.join(', ');
 }
 
-function render() {
-  const options = {
-    role: (els.role().value || '').trim(),
-    company: (els.company().value || '').trim(),
-    include: {
-      experience: els.secExperience().checked,
-      projects: els.secProjects().checked,
-      skills: els.secSkills().checked,
-      education: els.secEducation().checked,
-      achievements: els.secAchievements().checked,
-    },
-    cleanupBuzz: els.cleanupBuzz().checked,
-    keywords: (els.keywords().value || '').split(',').map(s => s.trim()).filter(Boolean),
+function renderSectionsList() {
+  const ul = els.sectionsList();
+  ul.innerHTML = '';
+  state.sections.forEach((s, index) => {
+    const li = document.createElement('li');
+    li.className = 'section-item';
+    li.dataset.id = s.id;
+
+    const drag = document.createElement('div');
+    drag.className = 'section-drag';
+    drag.title = 'Drag to reorder';
+    drag.textContent = '≡';
+
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.textContent = s.title || `Untitled ${index + 1}`;
+
+    const actions = document.createElement('div');
+    actions.className = 'section-actions';
+
+    const chk = document.createElement('input');
+    chk.type = 'checkbox';
+    chk.checked = s.visible;
+    chk.title = 'Toggle visibility';
+    chk.addEventListener('change', () => { s.visible = chk.checked; renderPreview(); });
+
+    const edit = document.createElement('button');
+    edit.className = 'btn small';
+    edit.textContent = 'Edit';
+    edit.addEventListener('click', () => openEditor(s.id));
+
+    actions.appendChild(chk);
+    actions.appendChild(edit);
+    li.appendChild(drag);
+    li.appendChild(title);
+    li.appendChild(actions);
+    ul.appendChild(li);
+  });
+}
+
+function openEditor(id) {
+  state.selectedSectionId = id;
+  const s = state.sections.find(x => x.id === id);
+  if (!s) return;
+  els.editor().hidden = false;
+  els.editorTitle().textContent = `Edit: ${s.title || 'Untitled'}`;
+  els.sectionTitle().value = s.title || '';
+  els.sectionContent().value = s.contentMd || '';
+}
+
+function onSaveSection() {
+  const id = state.selectedSectionId;
+  if (!id) return;
+  const s = state.sections.find(x => x.id === id);
+  if (!s) return;
+  s.title = els.sectionTitle().value.trim() || s.title;
+  s.contentMd = els.sectionContent().value;
+  renderSectionsList();
+  renderPreview();
+}
+
+function onDeleteSection() {
+  const id = state.selectedSectionId;
+  if (!id) return;
+  const idx = state.sections.findIndex(x => x.id === id);
+  if (idx === -1) return;
+  state.sections.splice(idx, 1);
+  state.selectedSectionId = null;
+  els.editor().hidden = true;
+  renderSectionsList();
+  renderPreview();
+}
+
+function onAddSection() {
+  const title = prompt('New section title (e.g., Publications, Volunteering):', 'New Section');
+  if (title === null) return;
+  const sec = {
+    id: crypto.randomUUID(),
+    title: title.trim() || 'New Section',
+    contentMd: '',
+    visible: true,
   };
-
-  const md = buildMd(state.baseMd, options);
-  state.currentMd = md;
-
-  const unsafeHtml = marked.parse(md, { mangle: false, headerIds: true });
-  const safeHtml = DOMPurify.sanitize(unsafeHtml);
-  els.preview().innerHTML = safeHtml;
+  state.sections.push(sec);
+  renderSectionsList();
+  openEditor(sec.id);
+  renderPreview();
 }
 
-function buildMd(base, options) {
-  // Split top matter (header + contact) and sections
-  const headerTop = extractBeforeFirstSection(base);
-  const sections = {
-    experience: extractSection(base, 'PROFESSIONAL EXPERIENCE'),
-    projects: extractSection(base, 'KEY TECHNICAL PROJECTS'),
-    skills: extractSection(base, 'TECHNICAL SKILLS'),
-    education: extractSection(base, 'EDUCATION'),
-    achievements: extractSection(base, 'ACHIEVEMENTS & CERTIFICATIONS'),
-  };
-
-  // Role/title replacement (line with **Role**)
-  let top = replaceRole(headerTop, options.role);
-
-  // Optional target company note (non-intrusive, comment-like)
-  if (options.company) {
-    top = top.replace(/\n+$/, '') + `\n\n<!-- Target: ${options.company} -->\n`;
-  }
-
-  // Rebuild Markdown with selected sections
-  let md = top + '\n';
-  if (options.include.experience && sections.experience) md += '\n' + sections.experience + '\n';
-  if (options.include.projects && sections.projects) md += '\n' + sections.projects + '\n';
-  if (options.include.skills && sections.skills) md += '\n' + emphasizeKeywords(sections.skills, options.keywords) + '\n';
-  if (options.include.education && sections.education) md += '\n' + sections.education + '\n';
-  if (options.include.achievements && sections.achievements) md += '\n' + sections.achievements + '\n';
-
-  // Cleanup buzzwords if selected
-  if (options.cleanupBuzz) {
-    md = cleanupBuzzwords(md);
-  }
-
-  // Tiny normalization
-  md = md.replace(/[ \t]+\n/g, '\n'); // trim trailing spaces
-  return md;
-}
-
-function extractBeforeFirstSection(md) {
+function parseResumeMd(md) {
+  // Extract header (before first H2)
   const idx = md.search(/^##\s+/m);
-  return idx === -1 ? md : md.slice(0, idx).trimEnd();
-}
+  const headerTop = idx === -1 ? md : md.slice(0, idx).trim();
+  const after = idx === -1 ? '' : md.slice(idx);
 
-function extractSection(md, header) {
-  const re = new RegExp(`^##\\s+${escapeRegExp(header)}[\\s\\S]*?(?=^##\\s+|\\Z)`, 'm');
-  const m = md.match(re);
-  return m ? m[0].trim() : '';
-}
+  const { name, role, contactsMd } = parseHeader(headerTop);
+  state.header = { name, role, contactsMd };
 
-function replaceRole(mdTop, newRole) {
-  if (!newRole) return mdTop;
-  const lines = mdTop.split('\n');
-  const idx = lines.findIndex(l => /^\*\*.+\*\*$/.test(l));
-  if (idx !== -1) {
-    lines[idx] = `**${newRole}**`;
-    return lines.join('\n');
+  // Extract sections
+  const secRe = /^##\s+(.+?)\s*$/gm;
+  const sections = [];
+  let match;
+  let lastIndex = 0;
+  const titles = [];
+  while ((match = secRe.exec(after)) !== null) {
+    titles.push({ title: match[1].trim(), start: match.index });
   }
-  // Fallback: insert under name
-  const nameIdx = lines.findIndex(l => /^#\s+/.test(l));
-  if (nameIdx !== -1) {
-    lines.splice(nameIdx + 1, 0, `**${newRole}**`);
+  for (let i = 0; i < titles.length; i++) {
+    const start = titles[i].start;
+    const end = i + 1 < titles.length ? titles[i + 1].start : after.length;
+    const block = after.slice(start, end);
+    const titleLine = block.match(/^##\s+(.+?)\s*$/m);
+    const title = titleLine ? titleLine[1].trim() : `Section ${i + 1}`;
+    const contentMd = block.replace(/^##\s+.+\n?/, '').trim();
+    sections.push({
+      id: crypto.randomUUID(),
+      title,
+      contentMd,
+      visible: true,
+    });
   }
-  return lines.join('\n');
+  state.sections = sections;
+  state.cleanupBuzz = true;
+  state.keywords = [];
 }
 
-function extractRole(mdTop) {
-  const m = mdTop.split('\n').find(l => /^\*\*.+\*\*$/.test(l));
-  return m ? m.replace(/^\*\*|\*\*$/g, '') : '';
+function parseHeader(topMd) {
+  const lines = topMd.split('\n').map(l => l.trim());
+  const nameLine = lines.find(l => l.startsWith('# ')) || '';
+  const roleLine = lines.find(l => /^\*\*.+\*\*$/.test(l)) || '';
+  const name = nameLine.replace(/^#\s+/, '').trim();
+  const role = roleLine.replace(/^\*\*|\*\*$/g, '').trim();
+  const contactLines = lines.filter(l =>
+    l && l !== nameLine && l !== roleLine && !/^---+$/.test(l)
+  );
+  const contactsMd = contactLines.join('\n');
+  return { name, role, contactsMd };
 }
 
-function emphasizeKeywords(skillsSection, keywords) {
-  if (!keywords?.length) return skillsSection;
-  const list = keywords.map(k => k.replace(/\|/g, '\\|')).join(', ');
-  const injected = `\n- **Role/Company Keywords**: ${list}\n`;
-  // Append near end of skills section
-  return skillsSection.replace(/\s*$/, injected);
+function buildHeaderMd(h) {
+  const name = h.name ? `# ${h.name}\n` : '';
+  const role = h.role ? `**${h.role}**\n` : '';
+  const contacts = h.contactsMd ? `${h.contactsMd.trim()}\n` : '';
+  return [name, role, contacts, '\n---\n'].join('').replace(/\n{3,}/g, '\n\n');
+}
+
+function buildSectionsMd(sections, keywords) {
+  const arr = [];
+  for (const s of sections) {
+    if (!s.visible) continue;
+    let body = s.contentMd || '';
+    if (s.title.toLowerCase().includes('skills') && keywords?.length) {
+      const list = keywords.join(', ');
+      body = `${body.trim()}\n\n- **Role/Company Keywords**: ${list}\n`;
+    }
+    arr.push(`## ${s.title}\n\n${body.trim()}\n`);
+  }
+  return arr.join('\n');
 }
 
 function cleanupBuzzwords(md) {
   let out = md;
-
-  // 1) Remove "enterprise-grade" (case-insensitive), keep "enterprise" where sensible
+  // Remove "enterprise-grade"
   out = out.replace(/\benterprise[- ]grade\b/gi, 'enterprise');
-
-  // 2) Remove hyphenated "-enabled": "Web3-enabled" -> "Web3"
+  // Remove "-enabled" suffix
   out = out.replace(/(\b[A-Za-z0-9+/]+)-enabled\b/gi, '$1');
-
-  // 3) Tone down "enabled/enabling" (keeps grammar)
+  // Soften "enabled/enabling"
   out = out.replace(/\benabling\b/gi, 'allowing');
   out = out.replace(/\benabled\b/gi, 'supported');
-
-  // 4) Collapse multiple spaces left by replacements
+  // Normalize spaces
   out = out.replace(/[ ]{2,}/g, ' ');
-
   return out;
 }
 
-function escapeRegExp(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function renderPreview() {
+  // Build MD from state
+  const headerMd = buildHeaderMd(state.header);
+  const sectionsMd = buildSectionsMd(state.sections, state.keywords);
+  let md = `${headerMd}\n${sectionsMd}`.trim() + '\n';
+  if (state.cleanupBuzz) md = cleanupBuzzwords(md);
+
+  // Convert to HTML
+  const unsafeHtml = marked.parse(md, { mangle: false, headerIds: true });
+  const safeHtml = DOMPurify.sanitize(unsafeHtml);
+
+  // Inject into the exact surface used for PDF
+  const surface = els.previewSurface();
+  surface.innerHTML = safeHtml;
+  // Persist current MD for downloads
+  state.currentMd = md;
+}
+
+function parseKeywords(s) {
+  return (s || '')
+    .split(',')
+    .map(x => x.trim())
+    .filter(Boolean);
 }
 
 async function downloadPdf() {
-  const element = document.getElementById('preview');
+  // Export the exact preview element with no extra margins.
+  const element = els.previewSurface();
   const opt = {
-    margin: [10, 10, 10, 10],
+    margin: 0, // ensure no extra padding/margins are added
     filename: 'resume.pdf',
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
   };
@@ -191,7 +316,7 @@ async function downloadPdf() {
 }
 
 function downloadMd() {
-  const blob = new Blob([state.currentMd], { type: 'text/markdown;charset=utf-8' });
+  const blob = new Blob([state.currentMd || ''], { type: 'text/markdown;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'resume.md';
