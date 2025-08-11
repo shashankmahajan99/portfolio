@@ -4,65 +4,94 @@
     <meta charset="utf-8" />
     <title>Customize Resume</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Base resume styles -->
+    <!-- Your existing resume CSS. This should be the same CSS you use for preview so PDF matches exactly -->
     <link rel="stylesheet" href="/resume-style.css" />
-    <!-- Page layout styles -->
+    <!-- Customizer layout styles (lightweight, won't affect the resume content itself) -->
     <link rel="stylesheet" href="./customize.css" />
+
     <!-- Libraries (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
+
     <!-- App -->
     <script src="./customize.js" type="module" defer></script>
   </head>
   <body>
     <div class="page">
-      <aside class="controls">
-        <h1>Customize Resume</h1>
+      <aside class="controls" aria-label="Customize controls">
+        <header class="controls-header">
+          <h1>Customize Resume</h1>
+          <button id="toggleControls" class="btn small only-mobile" aria-expanded="true">Hide Controls</button>
+        </header>
 
-        <section>
-          <label class="label" for="role">Target role/title</label>
+        <section class="block">
+          <h2 class="block-title">Header</h2>
+          <label class="label" for="name">Name</label>
+          <input id="name" type="text" class="input" placeholder="Your name" />
+
+          <label class="label" for="role">Title / Role</label>
           <input id="role" type="text" class="input" placeholder="e.g., Backend Engineer" />
+
+          <label class="label" for="contacts">Contact & Links (Markdown)</label>
+          <textarea id="contacts" rows="3" class="input" placeholder="Email | Phone | Links (Markdown allowed)"></textarea>
         </section>
 
-        <section>
-          <label class="label" for="company">Target company (optional)</label>
-          <input id="company" type="text" class="input" placeholder="e.g., Thales, Google" />
+        <section class="block">
+          <h2 class="block-title">Sections</h2>
+          <div class="sections-toolbar">
+            <button id="addSectionBtn" class="btn">Add Section</button>
+          </div>
+          <ul id="sectionsList" class="sections-list" aria-label="Sections list (drag to reorder)">
+            <!-- Dynamically populated -->
+          </ul>
+
+          <div id="editor" class="editor" hidden>
+            <div class="editor-head">
+              <h3 id="editorTitle">Edit Section</h3>
+              <div class="editor-actions">
+                <button id="deleteSectionBtn" class="btn danger">Delete</button>
+              </div>
+            </div>
+            <label class="label" for="sectionTitle">Section Title</label>
+            <input id="sectionTitle" class="input" type="text" placeholder="e.g., Professional Experience" />
+
+            <label class="label" for="sectionContent">Section Content (Markdown)</label>
+            <textarea id="sectionContent" class="input" rows="10" placeholder="Use Markdown here..."></textarea>
+            <div class="editor-foot">
+              <button id="saveSectionBtn" class="btn primary">Save Section</button>
+            </div>
+          </div>
         </section>
 
-        <section>
-          <div class="label">Include sections</div>
-          <label class="checkbox"><input type="checkbox" id="sec-experience" checked /> Professional Experience</label>
-          <label class="checkbox"><input type="checkbox" id="sec-projects" checked /> Key Technical Projects</label>
-          <label class="checkbox"><input type="checkbox" id="sec-skills" checked /> Technical Skills</label>
-          <label class="checkbox"><input type="checkbox" id="sec-education" checked /> Education</label>
-          <label class="checkbox"><input type="checkbox" id="sec-achievements" checked /> Achievements & Certifications</label>
-        </section>
-
-        <section>
-          <div class="label">Wording cleanup</div>
-          <label class="checkbox"><input type="checkbox" id="cleanup-buzz" checked /> Trim buzzwords (remove “enterprise‑grade”, “-enabled”, soften “enabled/enabling”)</label>
-        </section>
-
-        <section>
+        <section class="block">
+          <h2 class="block-title">Content Options</h2>
+          <label class="checkbox">
+            <input type="checkbox" id="cleanup-buzz" checked />
+            Trim buzzwords (enterprise-grade, -enabled, enabling/enabled)
+          </label>
           <label class="label" for="keywords">Emphasize keywords (comma-separated)</label>
           <input id="keywords" type="text" class="input" placeholder="e.g., OAuth2, GCP, Go, React, HSM" />
         </section>
 
-        <section class="actions">
+        <section class="block actions">
           <button id="resetBtn" class="btn secondary">Reset</button>
           <button id="mdBtn" class="btn">Download Markdown</button>
           <button id="pdfBtn" class="btn primary">Download PDF</button>
         </section>
 
         <p class="note">
-          Tip: Use the toggles to tailor content per role/company. All processing and PDF generation happen locally in your browser.
+          Tip: Edit, add, delete, and rearrange sections. PDF export uses the exact preview styles. All processing is local.
         </p>
       </aside>
 
-      <main class="preview-wrapper">
-        <div id="preview" class="resume-page">
-          <div class="loading">Loading resume...</div>
+      <main class="preview-wrapper" aria-label="Resume preview">
+        <!-- The element below is what gets converted to PDF. Keep it minimal so the PDF matches the preview. -->
+        <div id="previewFrame">
+          <article id="resumeSurface" class="resume-page">
+            <div class="loading">Loading resume...</div>
+          </article>
         </div>
       </main>
     </div>
