@@ -43,7 +43,7 @@ export default function Portfolio() {
     {
       title: "HSMs Manager",
       subtitle: "HSM Fleet Management Platform",
-      description: "Enterprise-grade centralized management platform for Thales HSM devices with real-time monitoring, OAuth2 security, and 90% operational overhead reduction.",
+      description: "Centralized platform for managing Thales HSM devices with real-time monitoring and OAuth2 security, reducing operational overhead by 90%.",
       tech: ["React.js", "GoLang", "OAuth2", "GCP", "REST APIs"],
       metrics: ["90% reduction in management overhead", "80% faster client onboarding", "OAuth2 compliance implementation"],
       status: "In Development",
@@ -53,9 +53,9 @@ export default function Portfolio() {
     {
       title: "Gambit Service Broker",
       subtitle: "Cloud-Native HSM Provisioning",
-      description: "OSB-compliant microservice enabling automated HSM provisioning in cloud environments, adopted by enterprise clients with 70% setup time reduction.",
+      description: "OSB-compliant microservice for automated HSM provisioning in cloud environments, reducing setup time by 70%.",
       tech: ["GoLang", "Microservices", "Docker", "OSB", "AWS", "Azure", "GCP"],
-      metrics: ["enterprise client adoption", "70% reduction in manual setup time", "Multi-cloud platform support"],
+      metrics: ["Enterprise adoption", "70% reduction in setup time", "Multi-cloud support"],
       status: "Live",
       type: "Microservice Platform",
       year: "2021-2023",
@@ -63,9 +63,9 @@ export default function Portfolio() {
     {
       title: "Gambit Web Application",
       subtitle: "HSM Management Interface",
-      description: "Full-stack React application providing intuitive interface for HSM provisioning, reducing manual setup time by 80% with improved user experience.",
+      description: "React-based application offering intuitive HSM provisioning with an 80% reduction in manual setup time.",
       tech: ["React.js", "REST APIs", "OSB APIs", "Docker"],
-      metrics: ["80% reduction in manual setup time", "Improved user experience", "Intuitive provisioning interface"],
+      metrics: ["80% reduction in setup time", "Improved user experience", "Streamlined provisioning"],
       status: "Live",
       type: "Web Application",
       year: "2021-2023",
@@ -73,10 +73,10 @@ export default function Portfolio() {
     {
       title: "DISCREET Platform",
       subtitle: "Cryptocurrency Web3 Platform",
-      description: "Web3-enabled cryptocurrency platform for Danish startup that helped raise $10 Million via IOU tokens, serving 100,000+ users with secure wallet integration.",
+      description: "Cryptocurrency platform for a Danish startup, enabling secure wallet integration and serving 100,000+ users.",
       tech: ["React.js", "Web3.js", "Blockchain", "Crypto Wallets"],
-      metrics: ["Helped raise $10M in funding", "100,000+ active users", "Secure crypto transaction gateway"],
-      status: "Discountinued",
+      metrics: ["Raised $10M funding", "100,000+ users", "Secure crypto transactions"],
+      status: "Discontinued",
       type: "Blockchain Platform",
       year: "2022",
     },
@@ -86,7 +86,7 @@ export default function Portfolio() {
     { title: "Technical Leadership", subtitle: "Leading HSMs Manager development", year: "2024-2025", icon: <Users className="w-5 h-5" /> },
     { title: "CTF Competition - 4th Place", subtitle: "Thales DIS Cybersecurity Challenge", year: "2024", icon: <Shield className="w-5 h-5" /> },
     { title: "CTF Competition - 3rd Place", subtitle: "Thales DIS Cybersecurity Challenge", year: "2023", icon: <Shield className="w-5 h-5" /> },
-    { title: "Thales Spot Award", subtitle: "Xtra Miler Award for Creative Problem-Solving", year: "2023", icon: <Award className="w-5 h-5" /> },
+    { title: "Thales Spot Award", subtitle: "Xtra Miler Award for innovative problem-solving", year: "2023", icon: <Award className="w-5 h-5" /> },
   ];
 
   return (
@@ -170,7 +170,7 @@ export default function Portfolio() {
                 Developer
               </h1>
               <p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
-                Building enterprise solutions with modern technologies. 
+                Building innovative solutions with modern technologies. 
                 4+ years experience in payments, cybersecurity & CTF competitions.
               </p>
             </div>
@@ -178,7 +178,7 @@ export default function Portfolio() {
             {/* Simple stats */}
             <div className="flex justify-center space-x-12 text-sm text-stone-500 uppercase tracking-wider">
               <div>4+ Years</div>
-              <div>Enterprise</div>
+              <div>Innovation</div>
               <div>CTF Expert</div>
             </div>
 
@@ -207,7 +207,7 @@ export default function Portfolio() {
           <div className="mb-16">
             <h2 className="text-3xl md:text-4xl font-light text-stone-900 mb-4">Selected Work</h2>
             <p className="text-stone-600 text-lg max-w-2xl">
-              Enterprise-grade solutions that drive business value and improve operational efficiency.
+              Solutions that drive business value and operational efficiency.
             </p>
           </div>
 
@@ -225,7 +225,7 @@ export default function Portfolio() {
                       <div className="inline-block">
                         <span className={`px-3 py-1 text-xs uppercase tracking-wider font-medium ${
                           project.status === "Live" ? "bg-green-100 text-green-800" : 
-                          project.status === "Discountinued" ? "bg-blue-100 text-red-800" : "bg-amber-100 text-amber-800"
+                          project.status === "Discontinued" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"
                         }`}>
                           {project.status}
                         </span>
@@ -278,11 +278,11 @@ export default function Portfolio() {
               <div className="space-y-6">
                 <h2 className="text-3xl md:text-4xl font-light text-stone-900">About</h2>
                 <p className="text-stone-600 leading-relaxed">
-                  Senior Full-Stack Developer with 4+ years of experience building enterprise-grade solutions. 
-                  Currently at Thales DIS, leading the development of HSMs Manager for next-generation payment products.
+                  Senior Full-Stack Developer with 4+ years of experience. 
+                  Currently leading the development of HSMs Manager for next-generation payment products at Thales DIS.
                 </p>
                 <p className="text-stone-600 leading-relaxed">
-                  Passionate about cybersecurity, having achieved 3rd and 4th place in Thales DIS CTF competitions. 
+                  Passionate about cybersecurity, having achieved top positions in Thales DIS CTF competitions. 
                   I specialize in React, GoLang, and cloud architecture, with a track record of reducing operational 
                   overhead by 90% through automation and innovation.
                 </p>
