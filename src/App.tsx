@@ -66,7 +66,7 @@ export default function Portfolio() {
       description: "Full-stack React application providing intuitive interface for HSM provisioning, reducing manual setup time by 80% with improved user experience.",
       tech: ["React.js", "REST APIs", "OSB APIs", "Docker"],
       metrics: ["80% reduction in manual setup time", "Improved user experience", "Intuitive provisioning interface"],
-      status: "Production",
+      status: "Live",
       type: "Web Application",
       year: "2021-2023",
     },
@@ -76,7 +76,7 @@ export default function Portfolio() {
       description: "Web3-enabled cryptocurrency platform for Danish startup that helped raise $10 Million via IOU tokens, serving 100,000+ users with secure wallet integration.",
       tech: ["React.js", "Web3.js", "Blockchain", "Crypto Wallets"],
       metrics: ["Helped raise $10M in funding", "100,000+ active users", "Secure crypto transaction gateway"],
-      status: "Live",
+      status: "Discountinued",
       type: "Blockchain Platform",
       year: "2022",
     },
@@ -225,7 +225,7 @@ export default function Portfolio() {
                       <div className="inline-block">
                         <span className={`px-3 py-1 text-xs uppercase tracking-wider font-medium ${
                           project.status === "Live" ? "bg-green-100 text-green-800" : 
-                          project.status === "Production" ? "bg-blue-100 text-blue-800" : "bg-amber-100 text-amber-800"
+                          project.status === "Discountinued" ? "bg-blue-100 text-red-800" : "bg-amber-100 text-amber-800"
                         }`}>
                           {project.status}
                         </span>
