@@ -1,124 +1,156 @@
-/* Resume Styles - Optimized for One Page */
+/* Resume Styles - One Page Layout */
 
+/* Reset and base styles for the resume container */
 .resume-page {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 11px;
-  line-height: 1.3;
-  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.2;
+  color: #000000;
   background: #ffffff;
   margin: 0;
-  padding: 20px;
+  padding: 16px;
   width: 794px; /* A4 width at 96dpi */
   min-height: 1123px; /* A4 height at 96dpi */
+  max-height: 1123px;
   box-sizing: border-box;
-  overflow: hidden; /* Prevent content from spilling to second page */
+  overflow: hidden;
+  page-break-after: avoid;
 }
 
-/* Header Styles */
+/* Name/Title Header */
 .resume-page h1 {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-  margin: 0 0 4px 0;
-  color: #1a1a1a;
+  margin: 0 0 3px 0;
+  padding: 0;
+  color: #000000;
   text-align: center;
 }
 
-.resume-page p:first-of-type {
+/* Role/Title (usually in bold after name) */
+.resume-page > p:first-of-type {
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  margin: 0 0 8px 0;
-  color: #2563eb;
+  margin: 0 0 4px 0;
+  color: #1a365d;
 }
 
-/* Contact information styling */
-.resume-page p:nth-of-type(2) {
+.resume-page > p:first-of-type strong {
+  font-weight: 600;
+}
+
+/* Contact Info */
+.resume-page > p:nth-of-type(2) {
   text-align: center;
-  font-size: 10px;
-  margin: 0 0 12px 0;
-  color: #666;
+  font-size: 9px;
+  margin: 0 0 8px 0;
+  color: #4a5568;
+  line-height: 1.3;
 }
 
-.resume-page p:nth-of-type(2) a {
-  color: #2563eb;
+.resume-page > p:nth-of-type(2) a {
+  color: #2b6cb0;
   text-decoration: none;
 }
 
-.resume-page p:nth-of-type(2) a:hover {
-  text-decoration: underline;
-}
-
-/* Horizontal rule */
+/* Horizontal separator */
 .resume-page hr {
   border: none;
-  border-top: 1.5px solid #e5e7eb;
-  margin: 12px 0 16px 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 8px 0 10px 0;
 }
 
-/* Section Headers */
+/* Section Headers (h2) */
 .resume-page h2 {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 14px 0 6px 0;
-  padding-bottom: 2px;
-  border-bottom: 1px solid #d1d5db;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Subsection Headers (Company/Project names) */
-.resume-page h3 {
-  font-size: 12px;
-  font-weight: 600;
-  margin: 8px 0 2px 0;
-  color: #374151;
-}
-
-/* Job titles and dates */
-.resume-page h4 {
   font-size: 11px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 10px 0 4px 0;
+  padding: 0 0 1px 0;
+  border-bottom: 1px solid #cbd5e0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  page-break-after: avoid;
+}
+
+/* Company/Organization Names (h3) */
+.resume-page h3 {
+  font-size: 10px;
+  font-weight: 600;
+  margin: 6px 0 1px 0;
+  color: #2d3748;
+  page-break-after: avoid;
+}
+
+/* Job Titles/Dates (h4) */
+.resume-page h4 {
+  font-size: 9px;
   font-weight: 500;
-  margin: 2px 0 4px 0;
-  color: #6b7280;
+  margin: 1px 0 2px 0;
+  color: #718096;
   font-style: italic;
 }
 
-/* Paragraphs */
+/* Regular paragraphs */
 .resume-page p {
-  margin: 4px 0;
+  margin: 2px 0 3px 0;
+  padding: 0;
   text-align: justify;
+  font-size: 10px;
+  line-height: 1.25;
 }
 
 /* Lists */
 .resume-page ul {
-  margin: 4px 0 8px 16px;
+  margin: 3px 0 5px 12px;
+  padding: 0;
+  page-break-inside: avoid;
+}
+
+.resume-page ol {
+  margin: 3px 0 5px 12px;
   padding: 0;
 }
 
 .resume-page li {
-  margin: 2px 0;
-  line-height: 1.25;
+  margin: 1px 0;
+  line-height: 1.2;
+  font-size: 10px;
+  text-align: justify;
 }
 
-/* Strong text */
+/* Nested lists */
+.resume-page ul ul,
+.resume-page ol ol {
+  margin: 1px 0 1px 10px;
+}
+
+/* Strong/Bold text */
 .resume-page strong {
   font-weight: 600;
-  color: #1f2937;
+  color: #1a202c;
 }
 
-/* Code and technical terms */
+/* Emphasis */
+.resume-page em {
+  font-style: italic;
+  color: #4a5568;
+}
+
+/* Code/Technical terms */
 .resume-page code {
-  background: #f3f4f6;
-  padding: 1px 3px;
+  background: #edf2f7;
+  padding: 1px 2px;
   border-radius: 2px;
-  font-family: 'Courier New', monospace;
-  font-size: 10px;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 9px;
+  color: #2d3748;
 }
 
 /* Links */
 .resume-page a {
-  color: #2563eb;
+  color: #2b6cb0;
   text-decoration: none;
 }
 
@@ -126,133 +158,143 @@
   text-decoration: underline;
 }
 
-/* Two-column layout for skills/education */
-.resume-page .two-column {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 8px 0;
+/* Blockquotes (if any) */
+.resume-page blockquote {
+  margin: 3px 0 3px 8px;
+  padding-left: 6px;
+  border-left: 2px solid #cbd5e0;
+  font-style: italic;
+  color: #4a5568;
 }
 
-/* Compact spacing for technical skills */
-.resume-page h2:contains("TECHNICAL SKILLS") + ul,
-.resume-page h2:contains("Technical Skills") + ul {
-  margin: 6px 0 8px 16px;
+/* Tables (if any) */
+.resume-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4px 0;
+  font-size: 9px;
 }
 
-.resume-page h2:contains("TECHNICAL SKILLS") + ul li,
-.resume-page h2:contains("Technical Skills") + ul li {
-  margin: 1px 0;
-  line-height: 1.2;
+.resume-page th,
+.resume-page td {
+  padding: 2px 4px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
 }
 
-/* Compact spacing for achievements */
-.resume-page h2:contains("ACHIEVEMENTS") + ul,
-.resume-page h2:contains("Achievements") + ul {
-  margin: 6px 0 8px 16px;
+.resume-page th {
+  background: #f7fafc;
+  font-weight: 600;
 }
 
-.resume-page h2:contains("ACHIEVEMENTS") + ul li,
-.resume-page h2:contains("Achievements") + ul li {
-  margin: 2px 0;
-  line-height: 1.3;
+/* Specific section optimizations */
+
+/* Technical Skills - more compact */
+.resume-page h2:contains("TECHNICAL") + ul,
+.resume-page h2:contains("Technical") + ul,
+.resume-page h2:contains("SKILLS") + ul {
+  margin: 2px 0 4px 12px;
 }
 
-/* Education section compact styling */
-.resume-page h2:contains("EDUCATION") + h3,
-.resume-page h2:contains("Education") + h3 {
-  margin: 6px 0 2px 0;
+.resume-page h2:contains("TECHNICAL") + ul li,
+.resume-page h2:contains("Technical") + ul li,
+.resume-page h2:contains("SKILLS") + ul li {
+  margin: 0.5px 0;
+  line-height: 1.15;
 }
 
-.resume-page h2:contains("EDUCATION") + h3 + p,
-.resume-page h2:contains("Education") + h3 + p {
-  margin: 2px 0 4px 0;
+/* Education - compact */
+.resume-page h2:contains("EDUCATION") + *,
+.resume-page h2:contains("Education") + * {
+  margin-top: 2px;
 }
 
-/* Project section styling */
-.resume-page h2:contains("PROJECTS") + h3,
-.resume-page h2:contains("Projects") + h3,
-.resume-page h2:contains("KEY TECHNICAL PROJECTS") + h3 {
-  margin: 8px 0 2px 0;
-  font-size: 11.5px;
+/* Achievements - compact */
+.resume-page h2:contains("ACHIEVEMENT") + ul,
+.resume-page h2:contains("Achievement") + ul {
+  margin: 2px 0 4px 12px;
 }
 
-/* Reduce margins for professional experience */
-.resume-page h2:contains("PROFESSIONAL EXPERIENCE") + h3,
-.resume-page h2:contains("Professional Experience") + h3 {
-  margin: 6px 0 1px 0;
+/* Professional Experience - slightly more space for readability */
+.resume-page h2:contains("PROFESSIONAL") + h3,
+.resume-page h2:contains("Professional") + h3,
+.resume-page h2:contains("EXPERIENCE") + h3,
+.resume-page h2:contains("Experience") + h3 {
+  margin-top: 5px;
 }
 
-/* Print-specific optimizations */
+/* Projects section */
+.resume-page h2:contains("PROJECT") + h3,
+.resume-page h2:contains("Project") + h3 {
+  margin-top: 4px;
+}
+
+/* Print-specific styles */
 @media print {
   .resume-page {
     margin: 0;
-    padding: 15px;
+    padding: 12px;
     box-shadow: none;
-    font-size: 10.5px;
+    font-size: 9.5px;
+    max-height: none;
+    width: auto;
   }
   
   .resume-page h1 {
-    font-size: 20px;
+    font-size: 16px;
   }
   
   .resume-page h2 {
-    font-size: 13px;
-    margin: 12px 0 5px 0;
+    font-size: 10px;
+    margin: 8px 0 3px 0;
   }
   
   .resume-page h3 {
-    font-size: 11px;
-    margin: 6px 0 1px 0;
+    font-size: 9.5px;
+    margin: 4px 0 1px 0;
   }
   
   .resume-page ul {
-    margin: 3px 0 6px 14px;
+    margin: 2px 0 3px 10px;
   }
   
   .resume-page li {
-    margin: 1px 0;
+    margin: 0.5px 0;
+    line-height: 1.15;
+  }
+  
+  .resume-page p {
+    margin: 1px 0 2px 0;
     line-height: 1.2;
   }
 }
 
-/* Prevent page breaks in sections */
-.resume-page h2 {
-  page-break-after: avoid;
+/* Page break controls */
+@page {
+  margin: 0.4in;
+  size: A4;
 }
 
+.resume-page h2,
 .resume-page h3 {
   page-break-after: avoid;
+  break-after: avoid;
 }
 
-.resume-page ul {
+.resume-page ul,
+.resume-page ol {
   page-break-inside: avoid;
+  break-inside: avoid;
 }
 
-/* Specific optimizations for your resume sections */
-.resume-page h2:contains("PROFESSIONAL EXPERIENCE") ~ * {
-  margin-top: 4px;
-  margin-bottom: 4px;
+/* Ensure content doesn't overflow */
+.resume-page * {
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
-.resume-page h2:contains("KEY TECHNICAL PROJECTS") ~ * {
-  margin-top: 3px;
-  margin-bottom: 3px;
-}
-
-.resume-page h2:contains("TECHNICAL SKILLS") ~ * {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
-/* Ensure the resume doesn't exceed one page */
+/* Final overflow protection */
 .resume-page {
-  max-height: 1083px; /* Slightly less than A4 to account for margins */
+  height: 1083px; /* Slightly less than full A4 for safety */
   overflow: hidden;
-}
-
-/* PDF-specific adjustments */
-@page {
-  margin: 0.5in;
-  size: A4;
 }
