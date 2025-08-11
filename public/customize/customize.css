@@ -1,3 +1,7 @@
+/* Complete Resume Customization CSS - Interface + Resume Styles */
+
+/* ===== CUSTOMIZATION INTERFACE STYLES ===== */
+
 :root {
   --bg: #0b0b0c;
   --panel: #121216;
@@ -5,28 +9,41 @@
   --muted: #9ca3af;
   --accent: #4f46e5;
   --border: #1f2937;
+  --hover: #22222b;
+  --danger: #dc2626;
+  --success: #059669;
 }
-* { box-sizing: border-box; }
+
+* { 
+  box-sizing: border-box; 
+}
 
 html, body {
   height: 100%;
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+/* Main layout */
 .page {
   display: grid;
   grid-template-columns: 380px 1fr;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
+/* Controls panel */
 .controls {
   padding: 16px;
   background: var(--panel);
   border-right: 1px solid var(--border);
   overflow-y: auto;
+  max-height: 100vh;
+}
+
+.controls[data-collapsed="true"] {
+  display: none;
 }
 
 .controls-header {
@@ -34,26 +51,40 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-bottom: 16px;
 }
 
 .controls h1 {
   font-size: 18px;
   margin: 0;
-}
-
-.block { margin-top: 16px; }
-.block-title {
-  margin: 0 0 8px;
-  font-size: 14px;
-  color: #d1d5db;
   font-weight: 600;
 }
 
+/* Sections and blocks */
+.block { 
+  margin-top: 20px; 
+}
+
+.block:first-child {
+  margin-top: 0;
+}
+
+.block-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #d1d5db;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Form elements */
 .label {
   display: block;
   font-size: 12px;
   color: var(--muted);
-  margin: 10px 0 6px;
+  margin: 12px 0 6px;
+  font-weight: 500;
 }
 
 .input {
@@ -64,22 +95,43 @@ html, body {
   border-radius: 8px;
   padding: 10px 12px;
   outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
 }
-.input:focus { border-color: var(--accent); }
-textarea.input { resize: vertical; }
+
+.input:focus { 
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+textarea.input { 
+  resize: vertical; 
+  min-height: 80px;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+  font-size: 13px;
+  line-height: 1.4;
+}
 
 .checkbox {
-  display: block;
+  display: flex;
+  align-items: center;
   font-size: 14px;
-  margin: 8px 0;
+  margin: 12px 0;
   color: #d1d5db;
+  cursor: pointer;
+  user-select: none;
 }
-.checkbox input { margin-right: 8px; }
 
+.checkbox input { 
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* Sections management */
 .sections-toolbar {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .sections-list {
@@ -89,6 +141,7 @@ textarea.input { resize: vertical; }
   border: 1px solid var(--border);
   border-radius: 8px;
   background: #0e0e11;
+  overflow: hidden;
 }
 
 .section-item {
@@ -96,114 +149,579 @@ textarea.input { resize: vertical; }
   grid-template-columns: 24px 1fr auto;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 12px;
   border-bottom: 1px solid #1a1a20;
+  transition: background-color 0.2s ease;
 }
-.section-item:last-child { border-bottom: none; }
-.section-drag { cursor: grab; color: #9ca3af; user-select: none; }
-.section-title { font-size: 14px; color: #e5e7eb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.section-item:last-child { 
+  border-bottom: none; 
+}
+
+.section-item:hover {
+  background: #1a1a20;
+}
+
+.section-drag { 
+  cursor: grab; 
+  color: var(--muted); 
+  user-select: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-drag:active {
+  cursor: grabbing;
+}
+
+.section-title { 
+  font-size: 14px; 
+  color: #e5e7eb; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  font-weight: 500;
+}
+
 .section-actions {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
 }
-.section-actions .btn { padding: 6px 8px; border-radius: 6px; }
 
+.section-actions input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Section editor */
 .editor {
-  margin-top: 12px;
-  padding: 12px;
+  margin-top: 16px;
+  padding: 16px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: #0e0e11;
 }
+
+.editor[hidden] {
+  display: none;
+}
+
 .editor-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
+
 .editor-head h3 {
   margin: 0;
   font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
 }
-.editor-actions { display: flex; gap: 8px; }
-.editor-foot { margin-top: 10px; display: flex; justify-content: flex-end; }
 
-.actions {
-  display: flex;
+.editor-actions { 
+  display: flex; 
+  gap: 8px; 
+}
+
+.editor-foot { 
+  margin-top: 16px; 
+  display: flex; 
+  justify-content: flex-end;
   gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 16px;
 }
 
+/* Buttons */
 .btn {
-  padding: 10px 12px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 6px;
   border: 1px solid var(--border);
   background: #1b1b22;
   color: var(--text);
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  user-select: none;
 }
-.btn:hover { background: #22222b; }
+
+.btn:hover { 
+  background: var(--hover);
+  border-color: #374151;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
 .btn.primary {
   border-color: #4338ca;
-  background: #3730a3;
+  background: var(--accent);
+  color: white;
 }
-.btn.secondary { background: #101015; }
-.btn.danger { background: #5b2430; border-color: #7f1d1d; }
-.btn.small { padding: 6px 8px; font-size: 12px; }
 
+.btn.primary:hover {
+  background: #4338ca;
+}
+
+.btn.secondary { 
+  background: #101015;
+  border-color: #374151;
+}
+
+.btn.secondary:hover {
+  background: #1a1a20;
+}
+
+.btn.danger { 
+  background: #7f1d1d; 
+  border-color: #991b1b;
+  color: white;
+}
+
+.btn.danger:hover {
+  background: #991b1b;
+}
+
+.btn.small { 
+  padding: 6px 8px; 
+  font-size: 12px; 
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  transform: none;
+  background: #1b1b22;
+}
+
+/* Action buttons */
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Notes and help text */
 .note {
   color: var(--muted);
   font-size: 12px;
-  margin-top: 12px;
+  margin-top: 16px;
+  line-height: 1.4;
+  padding: 12px;
+  background: #0a0a0b;
+  border-radius: 6px;
+  border-left: 3px solid var(--accent);
 }
 
+/* Loading states */
+.loading { 
+  color: #6b7280; 
+  font-style: italic; 
+  padding: 20px;
+  text-align: center;
+}
+
+/* Preview wrapper */
 .preview-wrapper {
-  padding: 16px;
+  padding: 20px;
   overflow: auto;
+  background: #f5f5f5;
+  min-height: 100vh;
 }
 
-/* The resume surface captured as PDF.
-   Keep padding 0 and margin 0 so the PDF matches preview exactly and avoids extra pages. */
-.resume-page {
-  background: #ffffff;
-  color: #000000;
-  margin: 0 auto;
-  width: 794px;   /* ~A4 width at 96dpi */
-  /* No padding to avoid accidental overflow */
-  padding: 0;
-  /* A subtle shadow for on-screen preview only */
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+#previewFrame {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100%;
 }
 
-/* Loading */
-.loading { color: #6b7280; font-style: italic; padding: 12px; }
+/* Mobile toggle */
+.only-mobile { 
+  display: none; 
+}
 
 /* Mobile responsiveness */
-.only-mobile { display: none; }
+@media (max-width: 1200px) {
+  .page {
+    grid-template-columns: 320px 1fr;
+  }
+}
+
 @media (max-width: 1000px) {
   .page {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
+  
   .controls {
     border-right: none;
     border-bottom: 1px solid var(--border);
+    max-height: 50vh;
   }
-  .only-mobile { display: inline-flex; }
-}
-@media (max-width: 840px) {
-  .resume-page { width: 100%; }
-  .preview-wrapper { padding: 0; }
+  
+  .only-mobile { 
+    display: inline-flex; 
+  }
+  
+  .preview-wrapper {
+    padding: 10px;
+  }
 }
 
-/* Print styles: ensure controls don’t affect print, and resume fills the page. */
+@media (max-width: 840px) {
+  .controls {
+    padding: 12px;
+  }
+  
+  .section-item {
+    padding: 10px;
+  }
+  
+  .editor {
+    padding: 12px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Sortable.js styles */
+.sortable-ghost {
+  opacity: 0.4;
+}
+
+.sortable-chosen {
+  background: #1a1a20;
+}
+
+/* Focus styles for accessibility */
+.btn:focus,
+.input:focus,
+.checkbox:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ===== RESUME PREVIEW STYLES ===== */
+
+/* Resume container for preview and PDF */
+.resume-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #000000;
+  background: #ffffff;
+  margin: 0 auto;
+  padding: 20px;
+  width: 754px; /* Reduced width to prevent cutoff */
+  min-height: 1083px;
+  box-sizing: border-box;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Name/Header */
+.resume-page h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  padding: 0;
+  color: #000000;
+  text-align: center;
+  page-break-after: avoid;
+}
+
+/* Role/Title */
+.resume-page > p:first-of-type {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #2563eb;
+}
+
+.resume-page > p:first-of-type strong {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+/* Contact Info */
+.resume-page > p:nth-of-type(2) {
+  text-align: center;
+  font-size: 11px;
+  margin: 0 0 12px 0;
+  color: #4a5568;
+  line-height: 1.5;
+  word-spacing: 2px;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.resume-page > p:nth-of-type(2) a {
+  color: #2563eb;
+  text-decoration: none;
+  display: inline;
+  white-space: nowrap;
+}
+
+.resume-page > p:nth-of-type(2) a:hover {
+  text-decoration: underline;
+}
+
+/* Horizontal separator */
+.resume-page hr {
+  border: none;
+  border-top: 1.5px solid #e2e8f0;
+  margin: 12px 0 15px 0;
+  page-break-after: avoid;
+}
+
+/* Section Headers (h2) */
+.resume-page h2 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 14px 0 6px 0;
+  padding: 0 0 3px 0;
+  border-bottom: 1px solid #d1d5db;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+/* Company/Organization Names (h3) */
+.resume-page h3 {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 8px 0 3px 0;
+  color: #374151;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+/* Job Titles/Dates (h4) */
+.resume-page h4 {
+  font-size: 11px;
+  font-weight: 500;
+  margin: 3px 0 4px 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Regular paragraphs */
+.resume-page p {
+  margin: 4px 0 5px 0;
+  padding: 0;
+  text-align: justify;
+  font-size: 12px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Lists */
+.resume-page ul {
+  margin: 5px 0 8px 18px;
+  padding: 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.resume-page ol {
+  margin: 5px 0 8px 18px;
+  padding: 0;
+}
+
+.resume-page li {
+  margin: 2px 0;
+  line-height: 1.35;
+  font-size: 12px;
+  text-align: justify;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Nested lists */
+.resume-page ul ul,
+.resume-page ol ol {
+  margin: 2px 0 2px 15px;
+}
+
+/* Strong/Bold text */
+.resume-page strong {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+/* Emphasis */
+.resume-page em {
+  font-style: italic;
+  color: #4a5568;
+}
+
+/* Code/Technical terms */
+.resume-page code {
+  background: #f3f4f6;
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 11px;
+  color: #374151;
+}
+
+/* Links */
+.resume-page a {
+  color: #2563eb;
+  text-decoration: none;
+  display: inline;
+  word-break: break-all;
+}
+
+.resume-page a:hover {
+  text-decoration: underline;
+}
+
+/* PDF-specific optimizations */
 @media print {
-  body { background: transparent; }
-  .controls { display: none; }
+  .controls {
+    display: none !important;
+  }
+  
+  .preview-wrapper {
+    padding: 0;
+    background: white;
+  }
+  
   .resume-page {
-    width: auto;
-    box-shadow: none;
     margin: 0;
+    padding: 15px;
+    font-size: 11px;
+    width: 100%;
+    max-width: 764px;
+    box-shadow: none;
+    background: white;
+    overflow: visible;
+    border-radius: 0;
+  }
+  
+  .resume-page h1 {
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+  
+  .resume-page > p:first-of-type {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .resume-page > p:nth-of-type(2) {
+    font-size: 10px;
+    margin-bottom: 10px;
+    white-space: normal;
+  }
+  
+  .resume-page hr {
+    margin: 10px 0 12px 0;
+  }
+  
+  .resume-page h2 {
+    font-size: 12px;
+    margin: 12px 0 5px 0;
+  }
+  
+  .resume-page h3 {
+    font-size: 11px;
+    margin: 6px 0 2px 0;
+  }
+  
+  .resume-page h4 {
+    font-size: 10px;
+    margin: 2px 0 3px 0;
+  }
+  
+  .resume-page p {
+    margin: 3px 0 4px 0;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  
+  .resume-page ul {
+    margin: 4px 0 6px 16px;
+  }
+  
+  .resume-page li {
+    margin: 1px 0;
+    line-height: 1.3;
+    font-size: 11px;
+  }
+}
+
+/* Page break controls */
+.resume-page h2,
+.resume-page h3 {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.resume-page ul,
+.resume-page ol {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Prevent text cutoff */
+.resume-page * {
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+/* Ensure consistent rendering */
+.resume-page {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive adjustments for screen preview */
+@media screen and (max-width: 840px) {
+  .resume-page {
+    width: 100%;
+    padding: 15px;
+  }
+  
+  .resume-page > p:nth-of-type(2) {
+    white-space: normal;
+    word-break: break-word;
   }
 }
