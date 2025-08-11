@@ -383,55 +383,58 @@ function parseKeywords(s) {
 }
 
 async function downloadPdf() {
- const element = els.previewSurface();
+  const element = els.previewSurface();
   
-  // Create a clone to avoid modifying the original
-  const clone = element.cloneNode(true);
-  
-  // Apply PDF-specific styles
-  clone.style.width = '794px';
-  clone.style.minHeight = '1123px';
-  clone.style.maxHeight = '1123px';
-  clone.style.overflow = 'hidden';
-  clone.style.fontSize = '10.5px';
-  clone.style.padding = '15px';
-  
-  // Temporarily add to DOM for rendering
-  document.body.appendChild(clone);
-  clone.style.position = 'absolute';
-  clone.style.left = '-9999px';
-  clone.style.top = '0';
-  
+  // Optimized options for single-page PDF generation
   const opt = {
-    margin: 8,
+    margin: [10, 10, 10, 10], // top, left, bottom, right in mm - minimal margins
     filename: 'resume.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { 
+      type: 'jpeg', 
+      quality: 0.98 
+    },
     html2canvas: { 
-      scale: 2,
+      scale: 2, // Higher scale for better quality
       useCORS: true,
       backgroundColor: '#ffffff',
-      width: 794,
-      height: 1123,
+      letterRendering: true,
+      allowTaint: false,
+      removeContainer: true,
+      imageTimeout: 15000,
+      logging: false,
+      width: 794, // A4 width
+      height: 1123, // A4 height
       scrollX: 0,
       scrollY: 0
     },
     jsPDF: { 
       unit: 'mm', 
       format: 'a4', 
-      orientation: 'portrait' 
+      orientation: 'portrait',
+      compress: true,
+      precision: 16
     },
-    pagebreak: { mode: ['avoid-all'] }
+    pagebreak: { 
+      mode: ['avoid-all', 'css', 'legacy'],
+      before: '.page-break-before',
+      after: '.page-break-after',
+      avoid: ['h1', 'h2', 'h3', '.resume-page']
+    }
   };
 
   try {
-    await html2pdf().from(clone).set(opt).save();
+    // Add a small delay to ensure rendering is complete
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    await html2pdf()
+      .from(element)
+      .set(opt)
+      .save();
+      
     console.log('PDF generated successfully');
   } catch (error) {
     console.error('PDF generation failed:', error);
     alert('PDF generation failed. Please try again.');
-  } finally {
-    // Clean up
-    document.body.removeChild(clone);
   }
 }
 
