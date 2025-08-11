@@ -1,19 +1,21 @@
 /* global marked, DOMPurify, html2pdf, Sortable */
 
+// Local persistence
+const STORAGE_KEY = 'resumeBuilderState.v2';
+const STORAGE_VERSION = 2;
+
 const state = {
   // Parsed from resume.md
-  header: {
-    name: '',
-    role: '',
-    contactsMd: '',
-  },
+  header: { name: '', role: '', contactsMd: '' },
   sections: [], // [{ id, title, contentMd, visible }]
-  // UI
+  // UI/options
   selectedSectionId: null,
   cleanupBuzz: true,
   keywords: [],
-  // Original
+  // Base and current docs
   baseMd: '',
+  currentMd: '',
+  baseMdHash: '',
 };
 
 const els = {
@@ -32,17 +34,75 @@ const els = {
   keywords: () => document.getElementById('keywords'),
   previewSurface: () => document.getElementById('resumeSurface'),
   resetBtn: () => document.getElementById('resetBtn'),
+  clearSavedBtn: () => document.getElementById('clearSavedBtn'),
   pdfBtn: () => document.getElementById('pdfBtn'),
   mdBtn: () => document.getElementById('mdBtn'),
   toggleControls: () => document.getElementById('toggleControls'),
   controls: () => document.querySelector('.controls'),
 };
 
+// Debounced autosave
+let saveTimer = null;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveState, 300);
+}
+function saveState() {
+  try {
+    const payload = {
+      version: STORAGE_VERSION,
+      savedAt: new Date().toISOString(),
+      baseMdHash: state.baseMdHash,
+      header: state.header,
+      sections: state.sections,
+      cleanupBuzz: state.cleanupBuzz,
+      keywords: state.keywords,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (e) {
+    // Storage full or disabled; fail silently.
+    // You could notify the user here if desired.
+  }
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== 'object') return null;
+    if (!data.version || data.version > STORAGE_VERSION) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+function clearSaved() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const md = await fetch('/resume.md').then(r => r.text()).catch(() => '# Error\nCould not load resume.md');
   state.baseMd = md;
+  state.baseMdHash = hashString(md);
 
-  parseResumeMd(md);
+  // Prefer saved state if present
+  const saved = loadState();
+  if (saved) {
+    // If resume.md changed significantly, we still load saved edits to preserve user work.
+    state.header = saved.header || state.header;
+    state.sections = (saved.sections || []).map(s => ({
+      id: s.id || crypto.randomUUID(),
+      title: s.title || 'Section',
+      contentMd: s.contentMd || '',
+      visible: typeof s.visible === 'boolean' ? s.visible : true,
+    }));
+    state.cleanupBuzz = typeof saved.cleanupBuzz === 'boolean' ? saved.cleanupBuzz : true;
+    state.keywords = Array.isArray(saved.keywords) ? saved.keywords : [];
+  } else {
+    // First load from base resume.md
+    parseResumeMd(md);
+  }
+
   hydrateControls();
   renderSectionsList();
   renderPreview();
@@ -58,17 +118,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const [moved] = arr.splice(oldIndex, 1);
       arr.splice(newIndex, 0, moved);
       renderPreview();
+      scheduleSave();
     }
   });
 
   // Wire header inputs
-  els.name().addEventListener('input', () => { state.header.name = els.name().value; renderPreview(); });
-  els.role().addEventListener('input', () => { state.header.role = els.role().value; renderPreview(); });
-  els.contacts().addEventListener('input', () => { state.header.contactsMd = els.contacts().value; renderPreview(); });
+  els.name().addEventListener('input', () => { state.header.name = els.name().value; renderPreview(); scheduleSave(); });
+  els.role().addEventListener('input', () => { state.header.role = els.role().value; renderPreview(); scheduleSave(); });
+  els.contacts().addEventListener('input', () => { state.header.contactsMd = els.contacts().value; renderPreview(); scheduleSave(); });
 
   // Wire options
-  els.cleanupBuzz().addEventListener('change', () => { state.cleanupBuzz = els.cleanupBuzz().checked; renderPreview(); });
-  els.keywords().addEventListener('input', () => { state.keywords = parseKeywords(els.keywords().value); renderPreview(); });
+  els.cleanupBuzz().addEventListener('change', () => { state.cleanupBuzz = els.cleanupBuzz().checked; renderPreview(); scheduleSave(); });
+  els.keywords().addEventListener('input', () => { state.keywords = parseKeywords(els.keywords().value); renderPreview(); scheduleSave(); });
 
   // Section CRUD
   els.addSectionBtn().addEventListener('click', onAddSection);
@@ -76,7 +137,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   els.deleteSectionBtn().addEventListener('click', onDeleteSection);
 
   // Actions
-  els.resetBtn().addEventListener('click', () => { parseResumeMd(state.baseMd); hydrateControls(); renderSectionsList(); renderPreview(); });
+  els.resetBtn().addEventListener('click', () => {
+    parseResumeMd(state.baseMd);
+    hydrateControls();
+    renderSectionsList();
+    renderPreview();
+    clearSaved();
+  });
+  els.clearSavedBtn().addEventListener('click', () => {
+    clearSaved();
+    // Keep current UI as-is, just remove persistence
+    // If you want to also reset the UI, uncomment below:
+    // parseResumeMd(state.baseMd); hydrateControls(); renderSectionsList(); renderPreview();
+  });
   els.mdBtn().addEventListener('click', downloadMd);
   els.pdfBtn().addEventListener('click', downloadPdf);
 
@@ -92,6 +165,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       els.toggleControls().setAttribute('aria-expanded', 'false');
       els.toggleControls().textContent = 'Show Controls';
     }
+  });
+
+  // Save on unload just in case
+  window.addEventListener('beforeunload', () => {
+    saveState();
   });
 });
 
@@ -127,7 +205,7 @@ function renderSectionsList() {
     chk.type = 'checkbox';
     chk.checked = s.visible;
     chk.title = 'Toggle visibility';
-    chk.addEventListener('change', () => { s.visible = chk.checked; renderPreview(); });
+    chk.addEventListener('change', () => { s.visible = chk.checked; renderPreview(); scheduleSave(); });
 
     const edit = document.createElement('button');
     edit.className = 'btn small';
@@ -162,6 +240,7 @@ function onSaveSection() {
   s.contentMd = els.sectionContent().value;
   renderSectionsList();
   renderPreview();
+  scheduleSave();
 }
 
 function onDeleteSection() {
@@ -174,6 +253,7 @@ function onDeleteSection() {
   els.editor().hidden = true;
   renderSectionsList();
   renderPreview();
+  scheduleSave();
 }
 
 function onAddSection() {
@@ -181,7 +261,7 @@ function onAddSection() {
   if (title === null) return;
   const sec = {
     id: crypto.randomUUID(),
-    title: title.trim() || 'New Section',
+    title: (title || '').trim() || 'New Section',
     contentMd: '',
     visible: true,
   };
@@ -189,6 +269,7 @@ function onAddSection() {
   renderSectionsList();
   openEditor(sec.id);
   renderPreview();
+  scheduleSave();
 }
 
 function parseResumeMd(md) {
@@ -201,14 +282,13 @@ function parseResumeMd(md) {
   state.header = { name, role, contactsMd };
 
   // Extract sections
-  const secRe = /^##\s+(.+?)\s*$/gm;
-  const sections = [];
-  let match;
-  let lastIndex = 0;
   const titles = [];
+  const secRe = /^##\s+(.+?)\s*$/gm;
+  let match;
   while ((match = secRe.exec(after)) !== null) {
     titles.push({ title: match[1].trim(), start: match.index });
   }
+  const sections = [];
   for (let i = 0; i < titles.length; i++) {
     const start = titles[i].start;
     const end = i + 1 < titles.length ? titles[i + 1].start : after.length;
@@ -290,6 +370,7 @@ function renderPreview() {
   // Inject into the exact surface used for PDF
   const surface = els.previewSurface();
   surface.innerHTML = safeHtml;
+
   // Persist current MD for downloads
   state.currentMd = md;
 }
@@ -324,4 +405,11 @@ function downloadMd() {
   a.click();
   a.remove();
   URL.revokeObjectURL(a.href);
+}
+
+// Simple, fast hash to detect content changes (not cryptographic)
+function hashString(str) {
+  let h = 5381, i = str.length;
+  while (i) { h = (h * 33) ^ str.charCodeAt(--i); }
+  return (h >>> 0).toString(16);
 }
