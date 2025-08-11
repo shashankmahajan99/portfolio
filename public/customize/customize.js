@@ -383,17 +383,56 @@ function parseKeywords(s) {
 }
 
 async function downloadPdf() {
-  // Export the exact preview element with no extra margins.
-  const element = els.previewSurface();
+ const element = els.previewSurface();
+  
+  // Create a clone to avoid modifying the original
+  const clone = element.cloneNode(true);
+  
+  // Apply PDF-specific styles
+  clone.style.width = '794px';
+  clone.style.minHeight = '1123px';
+  clone.style.maxHeight = '1123px';
+  clone.style.overflow = 'hidden';
+  clone.style.fontSize = '10.5px';
+  clone.style.padding = '15px';
+  
+  // Temporarily add to DOM for rendering
+  document.body.appendChild(clone);
+  clone.style.position = 'absolute';
+  clone.style.left = '-9999px';
+  clone.style.top = '0';
+  
   const opt = {
-    margin: 0, // ensure no extra padding/margins are added
+    margin: 8,
     filename: 'resume.pdf',
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+    html2canvas: { 
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      width: 794,
+      height: 1123,
+      scrollX: 0,
+      scrollY: 0
+    },
+    jsPDF: { 
+      unit: 'mm', 
+      format: 'a4', 
+      orientation: 'portrait' 
+    },
+    pagebreak: { mode: ['avoid-all'] }
   };
-  await html2pdf().from(element).set(opt).save();
+
+  try {
+    await html2pdf().from(clone).set(opt).save();
+    console.log('PDF generated successfully');
+  } catch (error) {
+    console.error('PDF generation failed:', error);
+    alert('PDF generation failed. Please try again.');
+  } finally {
+    // Clean up
+    document.body.removeChild(clone);
+  }
 }
 
 function downloadMd() {
