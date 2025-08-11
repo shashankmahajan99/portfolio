@@ -18,31 +18,42 @@ html, body {
 
 .page {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 380px 1fr;
   min-height: 100%;
 }
 
 .controls {
-  padding: 20px 18px;
+  padding: 16px;
   background: var(--panel);
   border-right: 1px solid var(--border);
   overflow-y: auto;
 }
 
-.controls h1 {
-  font-size: 20px;
-  margin: 0 0 14px 0;
+.controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-section {
-  margin: 14px 0 18px;
+.controls h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.block { margin-top: 16px; }
+.block-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #d1d5db;
+  font-weight: 600;
 }
 
 .label {
   display: block;
   font-size: 12px;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin: 10px 0 6px;
 }
 
 .input {
@@ -55,6 +66,7 @@ section {
   outline: none;
 }
 .input:focus { border-color: var(--accent); }
+textarea.input { resize: vertical; }
 
 .checkbox {
   display: block;
@@ -64,10 +76,64 @@ section {
 }
 .checkbox input { margin-right: 8px; }
 
+.sections-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.sections-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #0e0e11;
+}
+
+.section-item {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #1a1a20;
+}
+.section-item:last-child { border-bottom: none; }
+.section-drag { cursor: grab; color: #9ca3af; user-select: none; }
+.section-title { font-size: 14px; color: #e5e7eb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.section-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.section-actions .btn { padding: 6px 8px; border-radius: 6px; }
+
+.editor {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0e0e11;
+}
+.editor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.editor-head h3 {
+  margin: 0;
+  font-size: 14px;
+}
+.editor-actions { display: flex; gap: 8px; }
+.editor-foot { margin-top: 10px; display: flex; justify-content: flex-end; }
+
 .actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  margin-top: 16px;
 }
 
 .btn {
@@ -84,44 +150,60 @@ section {
   background: #3730a3;
 }
 .btn.secondary { background: #101015; }
+.btn.danger { background: #5b2430; border-color: #7f1d1d; }
+.btn.small { padding: 6px 8px; font-size: 12px; }
 
 .note {
   color: var(--muted);
   font-size: 12px;
+  margin-top: 12px;
 }
 
 .preview-wrapper {
-  padding: 24px;
+  padding: 16px;
   overflow: auto;
 }
 
-/* Resume page surface to match print size more closely */
+/* The resume surface captured as PDF.
+   Keep padding 0 and margin 0 so the PDF matches preview exactly and avoids extra pages. */
 .resume-page {
-  background: white;
-  color: black;
+  background: #ffffff;
+  color: #000000;
   margin: 0 auto;
-  width: 794px;  /* ~A4 width at 96dpi */
-  min-height: 1123px; /* ~A4 height at 96dpi */
-  padding: 32px 36px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  width: 794px;   /* ~A4 width at 96dpi */
+  /* No padding to avoid accidental overflow */
+  padding: 0;
+  /* A subtle shadow for on-screen preview only */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 /* Loading */
-.loading {
-  color: #6b7280;
-  font-style: italic;
+.loading { color: #6b7280; font-style: italic; padding: 12px; }
+
+/* Mobile responsiveness */
+.only-mobile { display: none; }
+@media (max-width: 1000px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .controls {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .only-mobile { display: inline-flex; }
+}
+@media (max-width: 840px) {
+  .resume-page { width: 100%; }
+  .preview-wrapper { padding: 0; }
 }
 
-/* Print styles */
+/* Print styles: ensure controls don’t affect print, and resume fills the page. */
 @media print {
   body { background: transparent; }
   .controls { display: none; }
   .resume-page {
     width: auto;
-    min-height: auto;
     box-shadow: none;
-    border-radius: 0;
-    padding: 0;
+    margin: 0;
   }
 }
