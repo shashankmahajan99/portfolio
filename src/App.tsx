@@ -29,14 +29,14 @@ export default function Portfolio() {
   }, []);
 
   const skills = [
-    { name: "GoLang", level: "Expert", icon: <Code className="w-5 h-5" />, category: "Backend", experience: "4+ years" },
-    { name: "React.js", level: "Expert", icon: <Monitor className="w-5 h-5" />, category: "Frontend", experience: "4+ years" },
-    { name: "Angular", level: "Advanced", icon: <Monitor className="w-5 h-5" />, category: "Frontend", experience: "1+ years" },
-    { name: "CTF Events", level: "Intermediate", icon: <Shield className="w-5 h-5" />, category: "Security", experience: "2+ years" },
-    { name: "Google Cloud Platform", level: "Advanced", icon: <Cloud className="w-5 h-5" />, category: "Cloud", experience: "3+ years" },
-    { name: "Docker/Podman", level: "Advanced", icon: <Zap className="w-5 h-5" />, category: "DevOps", experience: "4+ years" },
-    { name: "MySQL", level: "Advanced", icon: <Database className="w-5 h-5" />, category: "Database", experience: "3+ years" },
-    { name: "MongoDB", level: "Intermediate", icon: <Database className="w-5 h-5" />, category: "Database", experience: "2+ years" },
+    { name: "GoLang", level: "Proficient", icon: <Code className="w-5 h-5" />, category: "Backend", experience: "4+ years" },
+    { name: "React.js", level: "Proficient", icon: <Monitor className="w-5 h-5" />, category: "Frontend", experience: "4+ years" },
+    { name: "Angular", level: "Familiar", icon: <Monitor className="w-5 h-5" />, category: "Frontend", experience: "1+ years" },
+    { name: "CTF Events", level: "Skilled", icon: <Shield className="w-5 h-5" />, category: "Security", experience: "2+ years" },
+    { name: "Google Cloud Platform", level: "Skilled", icon: <Cloud className="w-5 h-5" />, category: "Cloud", experience: "3+ years" },
+    { name: "Docker/Podman", level: "Skilled", icon: <Zap className="w-5 h-5" />, category: "DevOps", experience: "4+ years" },
+    { name: "MySQL", level: "Skilled", icon: <Database className="w-5 h-5" />, category: "Database", experience: "3+ years" },
+    { name: "MongoDB", level: "Familiar", icon: <Database className="w-5 h-5" />, category: "Database", experience: "2+ years" },
   ];
 
   const projects = [
@@ -48,7 +48,7 @@ export default function Portfolio() {
       metrics: ["90% reduction in management overhead", "80% faster client onboarding", "OAuth2 compliance implementation"],
       status: "In Development",
       type: "Enterprise Solution",
-      year: "2024-2025",
+      year: "2025",
     },
     {
       title: "Gambit Service Broker",
@@ -58,7 +58,7 @@ export default function Portfolio() {
       metrics: ["Enterprise adoption", "70% reduction in setup time", "Multi-cloud support"],
       status: "Live",
       type: "Microservice Platform",
-      year: "2021-2023",
+      year: "2021-2025",
     },
     {
       title: "Gambit Web Application",
@@ -75,15 +75,15 @@ export default function Portfolio() {
       subtitle: "Cryptocurrency Web3 Platform",
       description: "Cryptocurrency platform for a Danish startup, enabling secure wallet integration and serving 100,000+ users.",
       tech: ["React.js", "Web3.js", "Blockchain", "Crypto Wallets"],
-      metrics: ["Raised $10M funding", "100,000+ users", "Secure crypto transactions"],
+      metrics: ["Raised $10 Million funding via IOU Tokens", "100,000+ users", "Secure crypto transactions"],
       status: "Discontinued",
       type: "Blockchain Platform",
-      year: "2022",
+      year: "2021-2023",
     },
   ];
 
   const achievements = [
-    { title: "Technical Leadership", subtitle: "Leading HSMs Manager development", year: "2024-2025", icon: <Users className="w-5 h-5" /> },
+    { title: "Technical Leadership", subtitle: "Leading HSMs Manager development", year: "2025", icon: <Users className="w-5 h-5" /> },
     { title: "CTF Competition - 4th Place", subtitle: "Thales DIS Cybersecurity Challenge", year: "2024", icon: <Shield className="w-5 h-5" /> },
     { title: "CTF Competition - 3rd Place", subtitle: "Thales DIS Cybersecurity Challenge", year: "2023", icon: <Shield className="w-5 h-5" /> },
     { title: "Thales Spot Award", subtitle: "Xtra Miler Award for innovative problem-solving", year: "2023", icon: <Award className="w-5 h-5" /> },
@@ -140,8 +140,10 @@ export default function Portfolio() {
                     {item}
                   </a>
                 ))}
-                <button className="w-full bg-stone-900 text-stone-50 px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-stone-800 transition-all duration-200">
-                  Resume
+                <button
+                  className="w-full bg-stone-900 text-stone-50 px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-stone-800 transition-all duration-200"
+                >
+                  Download Resume
                 </button>
               </div>
             </div>
@@ -177,9 +179,9 @@ export default function Portfolio() {
 
             {/* Simple stats */}
             <div className="flex justify-center space-x-12 text-sm text-stone-500 uppercase tracking-wider">
-              <div>4+ Years</div>
-              <div>Innovation</div>
-              <div>CTF Expert</div>
+              <div>Solutions Architect</div>
+              <div>Innovation Focused</div>
+              <div>Cybersecurity Enthusiast</div>
             </div>
 
             {/* CTA Buttons */}
@@ -207,7 +209,7 @@ export default function Portfolio() {
           <div className="mb-16">
             <h2 className="text-3xl md:text-4xl font-light text-stone-900 mb-4">Selected Work</h2>
             <p className="text-stone-600 text-lg max-w-2xl">
-              Solutions that drive business value and operational efficiency.
+             Battle-tested solutions that drive high business value and operational efficiency in payments and cybersecurity industry.
             </p>
           </div>
 
@@ -274,7 +276,7 @@ export default function Portfolio() {
       <section id="about" className="py-24 px-6 bg-stone-100">
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-7">
               <div className="space-y-6">
                 <h2 className="text-3xl md:text-4xl font-light text-stone-900">About</h2>
                 <p className="text-stone-600 leading-relaxed">
@@ -289,22 +291,22 @@ export default function Portfolio() {
               </div>
             </div>
             
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-5">
               <div className="space-y-8">
                 <div>
                   <h3 className="text-sm text-stone-500 uppercase tracking-wider mb-4">Experience</h3>
                   <div className="space-y-6">
                     <div className="border-l-2 border-stone-300 pl-6">
                       <div className="text-stone-900 font-medium">Senior Software Engineer</div>
-                      <div className="text-stone-600">Thales DIS • 2024 - Present</div>
+                      <div className="text-stone-600">Thales DIS • January 2024 - Present</div>
                     </div>
                     <div className="border-l-2 border-stone-300 pl-6">
                       <div className="text-stone-900 font-medium">Software Engineer</div>
-                      <div className="text-stone-600">Thales DIS • 2021 - 2023</div>
+                      <div className="text-stone-600">Thales DIS • July 2021 - Dec 2023</div>
                     </div>
                     <div className="border-l-2 border-stone-300 pl-6">
                       <div className="text-stone-900 font-medium">B.Tech Information Technology</div>
-                      <div className="text-stone-600">Amity University • 2017 - 2021</div>
+                      <div className="text-stone-600">Amity University • July 2017 - June 2021</div>
                     </div>
                   </div>
                 </div>
@@ -350,8 +352,8 @@ export default function Portfolio() {
                 </div>
                 <div className="space-y-1">
                   <div className={`inline-block px-2 py-1 text-xs uppercase tracking-wider font-medium ${
-                    skill.level === "Expert" ? "bg-stone-900 text-stone-50" :
-                    skill.level === "Advanced" ? "bg-stone-200 text-stone-800" : "bg-stone-100 text-stone-600"
+                    skill.level === "Proficient" ? "bg-stone-900 text-stone-50" :
+                    skill.level === "Skilled" ? "bg-stone-200 text-stone-800" : "bg-stone-100 text-stone-600"
                   }`}>
                     {skill.level}
                   </div>

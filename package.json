@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "html2pdf.js": "^0.10.3",
     "lucide-react": "^0.539.0",
-    "markdown-pdf": "^11.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
