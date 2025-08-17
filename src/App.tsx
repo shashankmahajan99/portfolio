@@ -142,6 +142,12 @@ export default function Portfolio() {
                 ))}
                 <button
                   className="w-full bg-stone-900 text-stone-50 px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-stone-800 transition-all duration-200"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = '/resume.pdf';
+                    link.download = 'Shashank_Mahajan_Resume.pdf';
+                    link.click();
+                  }}
                 >
                   Download Resume
                 </button>
