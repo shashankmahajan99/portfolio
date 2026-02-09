@@ -1,0 +1,43 @@
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  line-height: 1.4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 24pt;
+  margin-bottom: 5pt;
+  color: #000;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: 14pt;
+  border-bottom: 1px solid #ccc;
+  margin-top: 15pt;
+  margin-bottom: 8pt;
+  color: #444;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: 12pt;
+  margin-top: 10pt;
+  margin-bottom: 3pt;
+}
+
+p, li {
+  font-size: 10pt;
+  margin-bottom: 4pt;
+}
+
+ul {
+  padding-left: 20pt;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
