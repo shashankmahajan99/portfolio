@@ -13,11 +13,10 @@ Senior Full-Stack Engineer with 5+ years of experience specializing in high-perf
 
 ## CORE TECHNICAL COMPETENCIES
 
-- **Languages & Frameworks**: GoLang (Expert), React.js (Expert), Microservices, Node.js, Python.
-- **Data Structures & Algorithms**: Advanced Hashing, Priority Queues, Merkle Trees, LRU Caching, Graph Traversal.
-- **Architecture & Security**: System Design, Distributed Systems, HSM (Hardware Security Modules), OAuth2/OIDC, gRPC, REST APIs.
-- **Cloud & DevOps**: Google Cloud Platform (GCP), Docker/Podman, GitLab CI/CD, Bamboo, Kubernetes.
-- **Databases**: MySQL, MongoDB, Redis, Firebase.
+- **Languages & Frameworks**: GoLang (Proficient, 4+ yrs), React.js (Proficient, 4+ yrs), Microservices & gRPC.
+- **Security & HSM**: HSM Lifecycle & IAM (Expert, 4+ yrs), OAuth2 & API Security (Expert, 4+ yrs), CTF Events (Skilled).
+- **Cloud & DevOps**: Docker/Podman (Skilled, 4+ yrs), GCP (Skilled, 3+ yrs), CI/CD (GitLab/Bamboo).
+- **Databases & Tools**: MySQL (Skilled, 3+ yrs), REST APIs, Unit Testing (Builder Pattern).
 
 ---
 
