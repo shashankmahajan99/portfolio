@@ -9,7 +9,7 @@ const outputPath = path.join(__dirname, "public", "resume.pdf");
 const options = {
   paperFormat: "A4",
   paperOrientation: "portrait",
-  paperBorder: "0.5cm",
+  paperBorder: "0",
   renderDelay: 1000,
   cssPath: path.join(__dirname, "resume-style.css")
 };

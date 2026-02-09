@@ -285,7 +285,7 @@ export default function Portfolio() {
                     </div>
                     <div className="group relative pl-8 border-l border-stone-800">
                       <div className="absolute top-0 left-[-4.5px] w-2 h-2 bg-stone-50 rounded-full group-hover:scale-150 transition-transform"></div>
-                      <div className="text-xs text-stone-500 font-bold uppercase tracking-wider mb-2">Feb 2021 - May 2025</div>
+                      <div className="text-xs text-stone-500 font-bold uppercase tracking-wider mb-2">Feb 2021 - Dec 2023</div>
                       <div className="text-xl font-bold text-stone-50 mb-1">Software Engineer</div>
                       <div className="text-stone-400 font-medium">Thales DIS</div>
                     </div>

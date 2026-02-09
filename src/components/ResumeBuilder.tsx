@@ -18,7 +18,7 @@ const ResumeBuilder = () => {
             {portfolioData.email} | {portfolioData.phone} | {portfolioData.location}
           </p>
           <p className="text-[9px] m-0 mt-1 text-stone-500 italic">
-            LinkedIn: shashank-mahajan-7baa1979 | Portfolio: shashankmahajan.netlify.app
+            LinkedIn: <a href="https://www.linkedin.com/in/shashank-mahajan-7baa1979" className="text-blue-600 underline">shashank-mahajan-7baa1979</a> | Portfolio: <a href="https://shashankmahajan.netlify.app" className="text-blue-600 underline">shashankmahajan.netlify.app</a>
           </p>
         </div>
 
@@ -32,9 +32,9 @@ const ResumeBuilder = () => {
 
         {/* Technical Skills - Compact Grid */}
         <div className="mb-6">
-          <h2 className="text-[12px] font-bold text-stone-900 mb-2 pb-0.5 border-b border-stone-200 uppercase tracking-widest">Core Competencies</h2>
+          <h2 className="text-[12px] font-bold text-stone-900 mb-2 pb-0.5 border-b border-stone-200 uppercase tracking-widest">Core Technical Competencies</h2>
           <div className="grid grid-cols-2 gap-x-8 gap-y-1.5 text-[10px]">
-            {["Backend", "Cloud", "Security", "Algorithms"].map(cat => (
+            {["Backend", "Frontend", "Cloud", "Security", "Algorithms", "Database"].map(cat => (
               <div key={cat} className="flex gap-2">
                 <span className="font-bold text-stone-900 min-w-[75px]">{cat}:</span>
                 <span className="text-stone-700">

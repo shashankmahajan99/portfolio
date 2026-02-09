@@ -1,43 +1,84 @@
 body {
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  line-height: 1.4;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  line-height: 1.2;
   color: #333;
   margin: 0;
-  padding: 0;
+  padding: 0.25in;
+  background: white;
+}
+
+@page {
+  size: A4;
+  margin: 0;
 }
 
 h1 {
-  font-size: 24pt;
-  margin-bottom: 5pt;
+  font-size: 18pt;
+  margin-top: 0;
+  margin-bottom: 2pt;
   color: #000;
+  text-align: center;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
-h2 {
-  font-size: 14pt;
-  border-bottom: 1px solid #ccc;
-  margin-top: 15pt;
-  margin-bottom: 8pt;
-  color: #444;
-  text-transform: uppercase;
+p {
+  font-size: 9pt;
+  margin-bottom: 2pt;
+  margin-top: 0;
+  text-align: center;
+  color: #555;
+}
+
+strong {
+  color: #000;
 }
 
 h3 {
-  font-size: 12pt;
-  margin-top: 10pt;
+  font-size: 10.5pt;
+  margin-top: 6pt;
   margin-bottom: 3pt;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+  color: #0044cc;
+  font-weight: bold;
+  border-bottom: 1pt solid #eee;
+  padding-bottom: 1pt;
 }
 
-p, li {
-  font-size: 10pt;
-  margin-bottom: 4pt;
+hr {
+  margin: 4pt 0;
+  border: 0;
+  border-top: 1pt solid #eee;
 }
 
 ul {
-  padding-left: 20pt;
+  margin-top: 1pt;
+  margin-bottom: 3pt;
+  padding-left: 14pt;
+}
+
+li {
+  font-size: 9pt;
+  margin-bottom: 1pt;
+  text-align: left;
+  color: #333;
 }
 
 a {
-  color: #0066cc;
+  color: #0044cc;
   text-decoration: none;
+}
+
+/* Fix for markdown-pdf page breaks and empty second page */
+* {
+  page-break-inside: avoid;
+}
+
+h3, h1, p {
+  page-break-after: avoid;
+}
+
+section {
+  page-break-inside: avoid;
 }
