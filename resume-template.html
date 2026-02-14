@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" href="resume-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="resume-container">
+        <header>
+            <h1 id="name">{{name}}</h1>
+            <div class="subtitle">{{subtitle}}</div>
+            <div class="contact-info">
+                {{contact}}
+            </div>
+        </header>
+
+        <section class="summary">
+            <h3>Executive Summary</h3>
+            <div class="content">{{summary}}</div>
+        </section>
+
+        <section class="skills">
+            <h3>Technical Competencies</h3>
+            <div class="content">{{skills}}</div>
+        </section>
+
+        <section class="experience">
+            <h3>Professional Experience</h3>
+            <div class="content">{{experience}}</div>
+        </section>
+
+        <section class="projects">
+            <h3>Key Engineering Projects</h3>
+            <div class="content">{{projects}}</div>
+        </section>
+
+        <div class="two-column">
+            <section class="awards">
+                <h3>Awards & Recognition</h3>
+                <div class="content">{{awards}}</div>
+            </section>
+            <section class="education">
+                <h3>Education</h3>
+                <div class="content">{{education}}</div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 import profilePhoto from "./assets/profilePhoto.png";
 import { portfolioData } from "./data/portfolio";
-import ResumeBuilder from "./components/ResumeBuilder";
-import { generatePDF } from "./utils/pdfGenerator";
+
+
 
 export default function Portfolio() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -46,6 +46,10 @@ export default function Portfolio() {
     }
   };
 
+  const handleDownloadPDF = () => {
+    window.open('/resume.pdf', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-stone-50 font-sans selection:bg-stone-200 selection:text-stone-900">
       {/* Navigation */}
@@ -70,7 +74,7 @@ export default function Portfolio() {
               ))}
               <button
                 className="bg-stone-900 text-stone-50 px-6 py-2.5 text-xs uppercase tracking-widest font-bold hover:bg-stone-800 transition-all duration-200 rounded-sm"
-                onClick={generatePDF}
+                onClick={handleDownloadPDF}
               >
                 Resume
               </button>
@@ -99,7 +103,7 @@ export default function Portfolio() {
               ))}
               <button
                 className="w-full bg-stone-900 text-stone-50 px-6 py-4 text-sm uppercase tracking-widest font-bold hover:bg-stone-800 transition-all duration-200"
-                onClick={generatePDF}
+                onClick={handleDownloadPDF}
               >
                 View Resume
               </button>
@@ -388,7 +392,7 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
-      <ResumeBuilder />
+
     </div>
   );
 }
