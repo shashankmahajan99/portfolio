@@ -43,6 +43,7 @@ export interface PortfolioData {
   summary: string;
   skills: Skill[];
   projects: Project[];
+  hiddenProjects?: Project[];
   experience: Experience[];
   achievements: Achievement[];
   education: {

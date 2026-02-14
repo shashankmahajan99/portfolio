@@ -12,8 +12,7 @@ export const portfolioData: PortfolioData = {
   skills: [
     { name: "GoLang", level: "Proficient", category: "Backend", experience: "4+ years" },
     { name: "React.js", level: "Expert", category: "Frontend", experience: "4+ years" },
-    { name: "HSM Lifecycle & IAM", level: "Expert", category: "Security", experience: "4+ years" },
-    { name: "Microservices & gRPC", level: "Expert", category: "Backend", experience: "4+ years" },
+    { name: "Security & Cloud", level: "Expert", category: "Security", experience: "4+ years" },
     { name: "OAuth2 & API Security", level: "Expert", category: "Security", experience: "4+ years" },
     { name: "Swagger / OpenAPI", level: "Expert", category: "Security", experience: "4+ years" },
     { name: "REST APIs", level: "Expert", category: "Backend", experience: "4+ years" },
@@ -43,8 +42,8 @@ export const portfolioData: PortfolioData = {
     {
       title: "Cloud-HSM Provisioning Broker",
       subtitle: "Automated Cloud HSM Provisioning",
-      description: "Engineered an OSB-compliant microservice facilitating automated provisioning of Thales HSMs across multi-cloud environments (AWS, Azure, GCP) using GoLang and MongoDB.",
-      tech: ["GoLang", "Microservices", "Docker", "OSB API", "GCP", "MongoDB"],
+      description: "Engineered an OSB-compliant microservice facilitating automated provisioning of Thales HSMs across Google Cloud environments using GoLang and MySQL.",
+      tech: ["GoLang", "Microservices", "Docker", "OSB API", "GCP", "MySQL"],
       metrics: [
         "Successfully adopted by 50+ global enterprise clients",
         "70% reduction in manual setup and configuration time",
@@ -54,8 +53,10 @@ export const portfolioData: PortfolioData = {
       type: "Cloud Infrastructure",
       year: "2021 - 2025",
       architecture: "Broker pattern implementation for cross-cloud resource abstraction",
-      dsa: "Utilized MongoDB for distributed state management and custom LRU caching for performance."
-    },
+      dsa: "Utilized MySQL for distributed state management and custom LRU caching for performance."
+    }
+  ],
+  hiddenProjects: [
     {
       title: "DISCREET Platform",
       subtitle: "Web3 Financial Security",
@@ -90,13 +91,17 @@ export const portfolioData: PortfolioData = {
       period: "Feb 2021 - Dec 2023",
       highlights: [
         "Reduced manual setup time by 80% by engineering React-based management interfaces for hardware provisioning and automated lifecycle tasks.",
-        "Developed Cloud-HSM Provisioning Broker (OSB-compliant) using GoLang and MongoDB, enabling automated cloud provisioning for 50+ global clients.",
-        "Implemented comprehensive REST API suites adhering to Open Service Broker specifications for AWS, Azure, and GCP."
+        "Developed Cloud-HSM Provisioning Broker (OSB-compliant) using GoLang and MySQL, enabling automated cloud provisioning for 50+ global clients.",
+        "Implemented comprehensive REST API suites adhering to Open Service Broker specifications for Google Cloud Platform."
       ]
     }
   ],
   achievements: [
-    { title: "US Patent Filed (Nov 2025)", subtitle: "System and Method for Remote PIN Mailing for secure API authentication", year: "2025" },
+    { 
+      title: "US Patent Filed: Secure API Authentication", 
+      subtitle: "Architected a 'System and Method for Remote PIN Mailing'—an innovative security infrastructure for cryptographic API authentication.", 
+      year: "Filed 2025" 
+    },
     { title: "Thales DIS CTF Global Finalist", subtitle: "Consistent Top Performer: Ranked 3rd, 4th, & 5th globally in 2023, 2024, and 2025 respectively", year: "2023 - 2025" },
     { title: "Thales Spot Award (Xtra Miler)", subtitle: "Recognized for innovative security infrastructure solutions", year: "2023" },
     { title: "DSA & Advanced Algorithms Certification", subtitle: "GeeksForGeeks Professional Certification", year: "2019" }

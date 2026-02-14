@@ -138,9 +138,9 @@ export default function Portfolio() {
             </div>
 
             <div className="flex flex-wrap justify-center gap-6 text-xs text-stone-500 uppercase tracking-[0.2em] font-bold">
+              <span className="flex items-center gap-2 text-stone-900"><Award className="w-4 h-4" /> US Patent Filed</span>
               <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-stone-900 rounded-full"></div> Senior Engineer</span>
               <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-stone-400 rounded-full"></div> 5+ Years Exp</span>
-              <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-stone-400 rounded-full"></div> Security Expert</span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-5 justify-center pt-8">
@@ -296,10 +296,28 @@ export default function Portfolio() {
                   </div>
               </div>
 
+              <div className="bg-stone-800/50 p-8 rounded-sm border border-stone-800 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                  <Award className="w-24 h-24" />
+                </div>
+                <h4 className="text-sm uppercase tracking-[0.2em] text-stone-500 font-bold mb-6">Featured Achievement</h4>
+                <div className="space-y-4">
+                  <div className="inline-block px-3 py-1 bg-stone-50 text-stone-900 text-[10px] font-black uppercase tracking-widest rounded-full mb-2">
+                    US Patent Filed
+                  </div>
+                  <div className="text-2xl font-bold text-stone-50 leading-tight">
+                    {portfolioData.achievements[0].title}
+                  </div>
+                  <p className="text-stone-400 text-sm font-light leading-relaxed">
+                    {portfolioData.achievements[0].subtitle}
+                  </p>
+                </div>
+              </div>
+
               <div className="bg-stone-800/50 p-8 rounded-sm border border-stone-800">
-                <h4 className="text-sm uppercase tracking-[0.2em] text-stone-500 font-bold mb-6">Recognition</h4>
+                <h4 className="text-sm uppercase tracking-[0.2em] text-stone-500 font-bold mb-6">Global Recognition</h4>
                 <div className="space-y-6">
-                  {portfolioData.achievements.map((ach, i) => (
+                  {portfolioData.achievements.slice(1).map((ach, i) => (
                     <div key={i} className="flex gap-4">
                       <Award className="w-5 h-5 text-stone-500 flex-shrink-0" />
                       <div>
