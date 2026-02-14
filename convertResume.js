@@ -25,13 +25,9 @@ async function convert() {
         const nameMatch = markdown.match(/^# (.*)/m);
         sections.name = nameMatch ? nameMatch[1] : '';
 
-        // Extract Subtitle (Bold text right after H1)
-        const subtitleMatch = markdown.match(/^\*\*([^*]*)\*\*/m);
-        sections.subtitle = subtitleMatch ? subtitleMatch[1] : '';
-
-        // Extract Contact Info (Line with links/phone)
-        const contactMatch = markdown.match(/\[.*\]\(mailto:.*\).*/);
-        sections.contact = contactMatch ? marked.parseInline(contactMatch[0]) : '';
+        // Extract Contact Info (Line after Name)
+        const contactMatch = markdown.match(/^# .*\n\n([\s\S]*?)\n\n###/);
+        sections.contact = contactMatch ? marked.parse(contactMatch[1]).replace(/<\/?p>/g, '') : '';
 
         // Extract H3 sections
         const h3Sections = markdown.split(/^### /m);
@@ -42,17 +38,25 @@ async function convert() {
 
             let htmlContent = marked.parse(content);
 
-            // Post-process Experience and Projects to add nice headers
-            if (title.includes('experience') || title.includes('projects')) {
-                // Look for patterns like **Company** | Title | *Date*
-                // or **Project Name** | *Date*
-                htmlContent = htmlContent.replace(/<p><strong>(.*?)<\/strong> \| (.*?) \| <em>(.*?)<\/em><\/p>/g, 
-                    '<div class="experience-item"><div class="item-header"><span class="item-title">$1 | $2</span><span class="item-meta">$3</span></div>');
-                htmlContent = htmlContent.replace(/<p><strong>(.*?)<\/strong> \| <em>(.*?)<\/em><\/p>/g, 
-                    '<div class="project-item"><div class="item-header"><span class="item-title">$1</span><span class="item-meta">$2</span></div>');
+            // Post-process Experience
+            if (title.includes('history')) {
+                // Match *Job Title, Company, State* *Date Range*
+                htmlContent = htmlContent.replace(/<p><em>(.*?)<\/em>\s+<em>(.*?)<\/em><\/p>/g, 
+                    '<div class="experience-item"><div class="item-header"><span class="item-title">$1</span><span class="item-meta">$2</span></div>');
                 
                 // Close divs before the next one or at the end
-                // This is a bit hacky but works for simple lists
+                htmlContent = htmlContent.replace(/<\/ul>\s*<div/g, '</ul></div><div');
+                if (htmlContent.includes('<div class="')) {
+                    htmlContent += '</div>';
+                }
+            }
+
+            // Post-process Projects
+            if (title.includes('projects')) {
+                // Match *Project Name*
+                htmlContent = htmlContent.replace(/<p><em>(.*?)<\/em><\/p>/g, 
+                    '<div class="project-item"><div class="item-header"><span class="item-title">$1</span></div>');
+                
                 htmlContent = htmlContent.replace(/<\/ul>\s*<div/g, '</ul></div><div');
                 if (htmlContent.includes('<div class="')) {
                     htmlContent += '</div>';
@@ -61,17 +65,24 @@ async function convert() {
 
             if (title.includes('summary')) sections.summary = htmlContent;
             if (title.includes('competencies')) sections.skills = htmlContent;
-            if (title.includes('experience')) sections.experience = htmlContent;
-            if (title.includes('portfolio') || title.includes('projects')) sections.projects = htmlContent;
+            if (title.includes('history')) sections.experience = htmlContent;
+            if (title.includes('projects')) sections.projects = htmlContent;
+            if (title.includes('patents')) sections.patents = htmlContent;
             if (title.includes('awards')) sections.awards = htmlContent;
             if (title.includes('education')) sections.education = htmlContent;
         });
 
         // Fill template
         let html = template;
-        Object.keys(sections).forEach(key => {
-            html = html.replace(`{{${key}}}`, sections[key]);
-        });
+        html = html.replace('{{name}}', sections.name || '');
+        html = html.replace('{{contact}}', sections.contact || '');
+        html = html.replace('{{summary}}', sections.summary || '');
+        html = html.replace('{{education}}', sections.education || '');
+        html = html.replace('{{experience}}', sections.experience || '');
+        html = html.replace('{{projects}}', sections.projects || '');
+        html = html.replace('{{patents}}', sections.patents || '');
+        html = html.replace('{{awards}}', sections.awards || '');
+        html = html.replace('{{skills}}', sections.skills || '');
 
         // Inject CSS directly for Puppeteer
         html = html.replace('<link rel="stylesheet" href="resume-style.css">', `<style>${css}</style>`);
@@ -89,6 +100,7 @@ async function convert() {
             path: outputPath,
             format: 'A4',
             printBackground: true,
+            scale: 0.98,
             margin: {
                 top: '0px',
                 right: '0px',

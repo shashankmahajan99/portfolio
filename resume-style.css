@@ -1,11 +1,7 @@
 :root {
-    --primary-color: #1e293b;
-    --accent-color: #2563eb;
-    --text-color: #334155;
-    --heading-color: #0f172a;
-    --border-color: #cbd5e1;
-    --section-margin: 13px; /* Increased from 12px */
-    --item-margin: 9px;   /* Increased from 8px */
+    --text-color: #000000;
+    --link-color: #0000FF;
+    --border-color: #000000;
 }
 
 * {
@@ -15,147 +11,103 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    line-height: 1.45; /* Increased from 1.42 */
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
     color: var(--text-color);
     background: white;
-    -webkit-font-smoothing: antialiased;
 }
 
 .resume-container {
-    padding: 0.42in 0.52in; /* Increased from 0.4in 0.5in */
+    padding: 0.25in 0.4in;
     max-width: 210mm;
     margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 header {
     text-align: center;
-    margin-bottom: 12px; /* Increased from 10px */
+    margin-bottom: 4px;
 }
 
 h1 {
-    font-size: 25pt; /* Increased from 24pt */
-    font-weight: 800;
-    color: var(--heading-color);
-    letter-spacing: -0.04em;
-    margin-bottom: 2pt;
-    text-transform: uppercase;
-}
-
-.subtitle {
-    font-size: 12.5pt; /* Increased from 12pt */
-    font-weight: 600;
-    color: var(--accent-color);
-    margin-bottom: 6pt;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 1pt;
 }
 
 .contact-info {
-    font-size: 9.2pt; /* Increased from 9pt */
-    display: flex;
-    justify-content: center;
-    gap: 15pt;
-    color: var(--text-color);
-}
-
-h3 {
-    font-size: 11pt; /* Increased from 10.5pt */
-    font-weight: 700;
-    color: var(--heading-color);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    border-bottom: 1.5pt solid var(--primary-color);
-    padding-bottom: 2pt;
-    margin-bottom: 8pt;
-    margin-top: var(--section-margin);
-}
-
-.content {
-    font-size: 9.4pt; /* Increased from 9.2pt */
-}
-
-.content p {
+    font-size: 11pt;
+    display: block;
     margin-bottom: 2pt;
 }
 
+.contact-info a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+h3 {
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: none;
+    margin-top: 4pt;
+    margin-bottom: 1pt;
+    text-align: left;
+    border-bottom: 1px solid #000;
+}
+
+.content {
+    font-size: 10.5pt;
+    text-align: left;
+}
+
 ul {
-    padding-left: 11pt;
+    padding-left: 15pt;
     margin-bottom: 2pt;
 }
 
 li {
-    margin-bottom: 1.5pt;
-}
-
-strong {
-    color: var(--heading-color);
-    font-weight: 600;
+    margin-bottom: 0pt;
 }
 
 .experience-item, .project-item {
-    margin-bottom: var(--item-margin);
+    margin-bottom: 4pt;
 }
 
 .item-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.5pt;
+    margin-bottom: 0pt;
 }
 
 .item-title {
-    font-weight: 700;
-    color: var(--heading-color);
-    font-size: 9.5pt;
+    font-style: italic;
+    font-size: 10.5pt;
 }
 
 .item-meta {
-    font-weight: 600;
-    font-size: 8pt;
-    color: var(--text-color);
-    text-transform: uppercase;
+    font-style: italic;
+    font-size: 10.5pt;
+    text-align: right;
 }
 
-.two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15pt;
+.education-section {
+    margin-top: 15pt;
 }
 
-/* Compact Lists for Awards and Education */
-.awards ul, .education ul {
-    list-style: none;
-    padding-left: 0;
+.education-section h3 {
+    margin-top: 0;
 }
 
-.awards li, .education li {
-    margin-bottom: 3pt;
+.education-section ul {
+    list-style-type: disc;
 }
 
-.skills ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.skills li {
-    margin-bottom: 2pt;
+.education-section strong {
+    font-weight: bold;
 }
 
 @page {
     size: A4;
     margin: 0;
-}
-
-.resume-container {
-    overflow: hidden;
-}
-
-em {
-    font-style: normal;
-    font-weight: 600;
-    color: var(--accent-color);
 }
