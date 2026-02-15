@@ -7,10 +7,11 @@ shashankmahajan99@gmail.com | +91 8178528246 | Delhi, India
 *Senior Software Engineer, Thales DIS, Noida, India* *January 2024 to current*
 *   Led the development of the HSMs Manager platform using React and GoLang to centralize lifecycle management and security operations for enterprise clients.
 *   Achieved an 83% reduction in deployment time by engineering Python-based automation for Cloud GCP Deployments and optimizing Gitlab CI/CD pipelines.
+*   Integrated SAST/DAST tools including Blackduck, Coverity, SonarQube, and ZAP into the CI/CD pipeline to automate vulnerability management and secure coding.
 *   Architected OAuth2 compliance for REST APIs and implemented Swagger/OpenAPI to enable secure and seamless third-party integrations.
 
 *Software Engineer, Thales DIS, Noida, India* *February 2021 to December 2023*
-*   Engineered React-based management interfaces for hardware provisioning and automated lifecycle tasks to reduce manual setup time by 80%.
+*   Engineered React-based management interfaces for hardware provisioning and automated lifecycle tasks using Docker to reduce manual setup time by 80%.
 *   Developed the Cloud-HSM Provisioning Broker using GoLang and MySQL which enabled automated cloud provisioning for 50+ global enterprise clients.
 *   Implemented comprehensive REST API suites adhering to Open Service Broker specifications to provide seamless integration with Google Cloud Platform.
 
@@ -32,8 +33,8 @@ shashankmahajan99@gmail.com | +91 8178528246 | Delhi, India
 
 ### TECHNICAL COMPETENCIES
 *   Languages & Frameworks: GoLang, React.js, Node.js, TypeScript, gRPC, Microservices, Web3.js, REST APIs, GraphQL
-*   Security & Cloud: HSM Management, IAM, OAuth2, API Security, GCP, Docker, Podman, OSB API, Terraform
-*   Tools & Databases: MongoDB, MySQL, Redis, PostgreSQL, Distributed Systems, Algorithms & DSA, Git, CI/CD
+*   Security & DevOps: SAST/DAST (SonarQube, Blackduck, Coverity, ZAP, OWASP), HSM, OAuth2, GCP, Docker, Kubernetes, CI/CD
+*   Tools & Databases: MongoDB, MySQL, Redis, PostgreSQL, Distributed Systems, Algorithms & DSA, Git, Terraform, Swagger
 
 ### EDUCATION & CERTIFICATES
 *   B.Tech. in Information Technology, Amity University, Noida, Graduated 2021
